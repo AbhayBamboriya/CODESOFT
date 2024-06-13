@@ -1,97 +1,18 @@
 // import { FSWatcher } from "vite";
-import User from "../models/user.model.js";
+// import User from "../models/user.model.js";
 // import AppError from "../utils/error.util.js";
 import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
 import crypto from 'crypto'
 // import sendEmail from "../utils/sendEmail.js";
 import AppError from "../utils/error.js";
+import User from '../Models/userModel.js';
 // import sendEmail from "../utils/sendEmail.js";
 const cookieOptions={
     maxAge:7*24*60*60*1000,
 }
 const register  = async(req,res,next)=>{
-    try{
-        const {UserName,Name,email,password}=req.body;
-        console.log('data',UserName,Name,email,password);
-        if(!UserName || !email || !password || !Name){
-            return next(new AppError('All fields are Required',400))
-        }
-        const userExists = await User.findOne({email})
-        if(userExists){
-            return next(new AppError('Email already exist',400))
-        }
-        const u=await User.findOne({UserName})
-        if(u){
-            res.status(400).json({
-                success:false,
-                message:"UserName already exist",
-            })
-            return
-        }
-        const user =await User.create({
-            UserName,
-            Name,
-            email,
-            password,
-            profile:{
-                public_id:email,
-                // secureurl is  environment variable with api key,api secret
-                secure_url:'cloudinary://378171611453713:jar_yV68UrVNSKbFbxleqoBxKJQ@dix9kn7zm'
-            }
-        })
-        // if not user doesnot stored succcessfully 
-        if(!user){
-            return next(new AppError('User registration is failed please try again',400))
-        }
-
-        if(req.file){
-        
-            try{
-                const result=await cloudinary.v2.uploader.upload(req.file.path,{
-                    // at which folder you have to upload the image
-                    folder:'lms',
-                    width:250,
-                    height:250,
-                    // gravity is used to auto focus
-                    gravity:'faces',
-                    crop:'fill'
-                })
-                // try
-                if(result){
-                    user.profile.public_id=result.public_id
-
-                    user.profile.secure_url=result.secure_url    
-                    console.log("URL IMAGE",result.secure_url);
-                    
-                    // remove file from local system/server
-                    fs.rm(`uploads/${req.file.filename}`)
-
-                }
-            }catch(e){
-                return next(
-                    new AppError(error || 'File not uploaded,please try again',500)
-                )
-            }
-        }
-    
-        // TODO: file upload
-        await user.save()   // user will be saved
-        user.password=undefined
-        // ater registration for dirctly login thatswyh used jwt token
-        const token=await user.generateJWTToken()
-        //   setting thetoken to cookie
-        res.cookie('token',token,cookieOptions)
-        sendEmail(user.email)
-        res.status(201).json({
-            success:true,
-            message:"User registered successfully",
-            user
-        })
-    }
-    catch(e){
-        return next(new AppError(e.message,500))
-    }
+    console.log('sjdj');
 }
 
 const login=async(req,res,next)=>{
