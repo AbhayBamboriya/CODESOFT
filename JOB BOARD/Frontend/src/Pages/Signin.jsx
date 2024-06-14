@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { isEmail } from '../Helpers/regexMatcher';
 import { login } from '../Redux/Slices/auth';
 // import { signin } from '../Redux/Slices/auth';
@@ -28,9 +28,9 @@ function Signin() {
     async function signin(e){
         console.log('insifnin',signinData   );
         e.preventDefault();
-        if(!signinData.email ||  !signinData.password){
+        if(!signinData.email || !signinData.password){
             console.log('inser');
-            toast.error('Please fill all the details');
+            console.log(toast.error('Please fill all the details'))
             return
         }
 
@@ -39,17 +39,10 @@ function Signin() {
             toast.error('Invalid Email Id')
             return
         }
-
-        
-        const formData=new FormData();
-        formData.append("email",signinData.email)
-        formData.append("password",signinData.password)
-        console.log('csk');
-        // dispatch creae account action
-        const response=await dispatch(login(formData))
-        // going o home page
+        const response=await dispatch(login(signinData))
+ 
         console.log('respone- '+JSON.stringify(response));
-        // if(response?.payload?.success) navigate('/')
+        if(response?.payload?.success) navigate('/')
         // clearing all the entry
         // setPreviewImage('')
         // setSignupData({

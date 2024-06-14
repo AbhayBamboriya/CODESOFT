@@ -9,7 +9,8 @@ const initialState={
 
 export const createAccount=createAsyncThunk('/auth/signup',async(data) =>{
     try{
-        const res=axiosInstance.post("user/register",data)
+        console.log('data to be send',data);
+        const res=axiosInstance.post("/register",data)
         console.log('res'+res);
         toast.promise(res
             // ,console.log('ressss'+res).toString()
@@ -19,14 +20,14 @@ export const createAccount=createAsyncThunk('/auth/signup',async(data) =>{
             success:(data)=>{
                 return data?.data?.message
             },
-            error:"Failed to create account"
+            // error:"Failed to create account"
             // error: (err) => {
             //     console.error('Failed to create account:', err);
             //     return "Failed to create account";
             // }
             // console.log();
         });
-        // console.log('check');
+        console.log('checking response in frontend',res);
         return (await res).data
     }
     catch(e){
@@ -37,33 +38,15 @@ export const createAccount=createAsyncThunk('/auth/signup',async(data) =>{
 
 export const login=createAsyncThunk('/auth/login',async(data) =>{
     try{
-        console.log('form data');
-        data.forEach((value, key) => {
-            console.log(key," ",value);
-          });
-        try{
-            const res=await axiosInstance.post('/login',{email:data?.email,password:data?.password})
-        }
-        catch(e){
-            console.log('form frontend',e);
-        }
-        console.log('res'+(await (res)).data);
-        toast.promise(res
-            // ,console.log('ressss'+res).toString()
-            ,{
+        console.log('check',data.email," ",data.password);
+        const res= axiosInstance.post('/login',data)
+        toast.promise(res,{
             loading:"Wait! Authentication in Progress ",
-            
             success:(data)=>{
                 return data?.data?.message
             },
             error:"Failed to Login"
-            // error: (err) => {
-            //     console.error('Failed to create account:', err);
-            //     return "Failed to create account";
-            // }
-            // console.log();
         });
-        // console.log('check');
         return (await (res)).data
     }
     catch(e){
