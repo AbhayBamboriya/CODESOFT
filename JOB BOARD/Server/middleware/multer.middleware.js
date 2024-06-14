@@ -13,7 +13,7 @@ const upload = multer({
   }),
   fileFilter: (_req, file, cb) => {
     let ext = path.extname(file.originalname);
-    console.log("extension",ext);
+    // console.log("extension",ext);
     if (
       ext != ".mp4" &&
       ext != ".jpg" &&
@@ -28,7 +28,7 @@ const upload = multer({
     }
 
     cb(null, true);
-    console.log('check');
+    // console.log('check');
   },
 });
 

@@ -5,7 +5,7 @@ import { allUser, checkUser, detail, forgotPassword, login, logout, register, re
 import { isLoggedIn } from "../middleware/auth.middleware.js";
 const router =Router(); //creating instance
 // accept update user all are working correctly
-router.get('/register',upload.single("profile"),register)   //in upload single file orhow many file u have to upload
+router.post('/register',upload.single("profile"),register)   //in upload single file orhow many file u have to upload
 router.post('/login',login) 
 router.get('/logout',logout)
 router.post('/reset',forgotPassword);
