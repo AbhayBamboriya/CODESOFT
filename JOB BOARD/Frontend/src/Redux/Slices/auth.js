@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import  axiosInstance  from "../../Helpers/axiosInstance";
 
 const initialState={
-    isLoggedIn:localStorage.getItem('isLoggedIn')   || false,
-    role:localStorage.getItem('role') || "",
+    // isLoggedIn:localStorage.getItem('isLoggedIn')   || false,
+    // role:localStorage.getItem('role') || "",
 }  
 
 export const createAccount=createAsyncThunk('/auth/signup',async(data) =>{

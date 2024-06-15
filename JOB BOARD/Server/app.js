@@ -4,6 +4,7 @@ import cookieParser  from 'cookie-parser'
 import morgan from 'morgan';
 import errorMiddleware from './middleware/errorMiddleware.js';
 import router from './Routes/Routes.js';
+import JobRoutes from './Routes/JobRoutes.js'
 // import miscRoutes from './routes/misllaneous.routes.js'
 const app=express()
 // Enable CORS for all routes
@@ -33,7 +34,7 @@ app.use('/ping',function(req,res){
     res.send('/pong')
 })
 app.use('/api',router)
-
+app.use('/api/job',JobRoutes)
 // routes of diffenent module
 // any other page which is not present and for that use *
 app.all('*',(req,res)=>{
