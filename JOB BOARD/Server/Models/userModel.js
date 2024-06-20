@@ -24,7 +24,24 @@ const userSchema =  new Schema({
         select:false
         // password will not be shared by default
     },
-
+    apply:[{
+        id:{
+            type:'String',
+            required:[true,'Id are Requried']
+        },
+        domain:{
+            type:'String',
+            required:[true,'Domain are Requried']
+        },
+        resume:{
+            public_url:{
+                type:'String'
+            },
+            secure_url:{
+                type:'String'
+            }
+        }
+    }],
     profile:{
         public_id:{
             type:'String'

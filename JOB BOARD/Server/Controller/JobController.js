@@ -1,6 +1,8 @@
 import Job from "../Models/jobModel.js";
+import User from "../Models/userModel.js";
 import AppError from "../utils/error.js"
-
+import cloudinary from 'cloudinary'
+import fs from 'fs/promises'
 const createJob =async(req,res,next)=>{
     try{
         console.log(req.body);
@@ -51,6 +53,95 @@ const createJob =async(req,res,next)=>{
     }
 }
 
+const getById=async (req,res,next)=>{
+    try{
+        const {id}=req.params
+        const job=await Job.findById(id)
+        console.log('req',job);
+        res.status(200).json({
+            success:true,
+            message:'Jobs',
+            job
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+} 
+
+const apply=async (req,res,next)=>{
+    try{
+        const {companyId}=req.params
+        const {type,userId}=req.body;
+        console.log(req.body);
+        console.log(companyId," ",type," ",userId," ",req.file);
+        const user=await User.findById(userId)
+        const company=await Job.findById(companyId)
+        let publicURL=userId
+        let secureUrl='cloudinary://378171611453713:jar_yV68UrVNSKbFbxleqoBxKJQ@dix9kn7zm'
+        if(req.file){
+            
+            try{
+                // const result=await cloudinary.v2.uploader.upload(req.file.path,{
+                //     // at which folder you have to upload the image
+                //     folder:'JOB_PORTAL',
+                //     // width:250,
+                //     // height:250,
+                //     // gravity is used to auto focus
+                //     // gravity:'faces',
+                //     // crop:'fill'
+                // })
+
+                // cloudinary.uploader.upload("path/to/your/file.pdf", { resource_type: "raw" }, function(error, result) {
+                //     console.log(result, error);
+                //   });
+
+                 const result= await cloudinary.uploader.upload(req.file.path, { resource_type: "raw" }, function(error, result) {
+                    if (result) {
+                    //   console.log("PDF URL:", result.url);
+                    } else {
+                    //   console.log("Error:", error);
+                    }
+                  });
+
+                // console.log('res',result);
+                // try
+                if(result){
+                    publicURL=result.public_id
+                    secureUrl=result.secure_url    
+                    // console.log("URL IMAGE",result.secure_url);
+
+                    // remove file from local system/server
+                    // fs.rm(`uploads/${req.file.filename}`)
+
+                }
+            }catch(e){
+                return next(
+                    new AppError(e.message || 'File not uploaded,please try again',500)
+                )
+            }
+        }
+        const obj={
+            public_url:publicURL,
+            secure_url:secureUrl   
+        }
+        // console.log('obj is',obj);
+        company.apply.push({id:userId,domain:type,resume:obj})
+        // console.log('company is',companyId);
+        user.apply.push({id:companyId,domain:type,resume:obj})
+        // console.log('printing detail',user);
+        await company.save()
+        await user.save()
+        res.status(200).json({
+            success:true,
+            message:'Applied for the job',
+            user    
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+} 
 const getAllJob=async(req,res,next)=>{
     try{
         const Jobs=await Job.find({}).and([{type:'Job'}])
@@ -139,4 +230,6 @@ export {
     filterByVenue,
     getInternshipByTitle,
     getJobByTitle
+    ,getById,
+    apply
 }

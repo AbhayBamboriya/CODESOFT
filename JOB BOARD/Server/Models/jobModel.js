@@ -1,4 +1,11 @@
 import mongoose, { Schema,Model } from "mongoose";
+const locationSchema = new mongoose.Schema({
+    name: String,
+    // coordinates: {
+    //   type: { type: String, default: 'Point' }, // Set the type to 'Point' by default
+    //   coordinates: { type: [Number], required: true } // Array containing longitude and latitude values
+    // }
+  });
 const JobSchema =  new Schema({
     title:{
         type:'String',
@@ -20,6 +27,25 @@ const JobSchema =  new Schema({
         trim:true,
 
     },
+    apply:[{
+        id:{
+            type:'String',
+            required:[true,'Id are Requried']
+        },
+        domain:{
+            type:'String',
+            required:[true,'Domain are Requried']
+        },
+        resume:{
+            public_url:{
+                type:'String'
+            },
+            secure_url:{
+                type:'String'
+            }
+        }
+    }],
+
     perks:[{
         type:'String',
         required:[true,'Perks are Requried']
@@ -31,7 +57,7 @@ const JobSchema =  new Schema({
     },
     skills:[{
         type:'String',
-        required:[true,'Skills are Required']
+        required:[true,'Perks are Requried']
     }],
     stipend:{
         type:'Number',
@@ -69,4 +95,5 @@ const JobSchema =  new Schema({
 
 
 const Job = mongoose.model('JobSchema',JobSchema)
+// console.log('model is  ',JobSchema);
 export default Job

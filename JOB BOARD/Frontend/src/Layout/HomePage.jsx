@@ -9,12 +9,21 @@ import 'slick-carousel/slick/slick.css'
 import Div from './Div'
 import Footer from '../Section/Footer'
 import Dropdown from './Dropdown'
+import Marquee from "react-fast-marquee";
+import google from '../assets/google.jpeg'
+import adobe from '../assets/adobe.jpeg'
+import microsoft from '../assets/microsoft.jpg'
+import ibm from '../assets/ibm.jpeg'
+import cisco from '../assets/cisco.jpeg'
+import Search from '../Compnents/Search'
+
 
 const HomePage = () => {
     const dispatch=useDispatch()
     const {internship,job}=useSelector((state)=>state.services)
+    // console.log('');
     // console.log('intrrrer in home',internship);
-
+    // console.log('job from state',job);
     useEffect(()=>{
         dispatch(AllInternship())
         dispatch(AllJobs())
@@ -37,15 +46,18 @@ const HomePage = () => {
                         <li className='cursor-pointer'>Home</li>
                         <li className='cursor-pointer'><Link to="/signin">Sign In</Link></li>
                         <li className='cursor-pointer'><Link to='/signup'>Sign Up</Link></li>
+                        <li className='cursor-pointer'><Link to='/Internship'>Internship</Link></li>
+                        <li className='cursor-pointer'><Link to='/Job'>Job</Link></li>
                         <li className='cursor-pointer'>Contact</li>
                     </ul>
                 </nav>
 
                 <div className='flex flex-col items-center justify-center mt-[5%]'>
                         <Dropdown/>
-                        <input type="text" className='text-center  py-3 w-[50%] ' />
+                        {/* <input type="text" className='text-center  py-3 w-[50%] ' />
                         <h1 className='text-white text-5xl mt-[5%] font-bold leading-loose tracking-light text-center'>Make your dream carrier a reality</h1>
-                        <h3 className='text-white text-3xl mt-[5%] font-bold leading-loose tracking-light text-center'>Latest Internships on Job Portal</h3>
+                        <h3 className='text-white text-3xl mt-[5%] font-bold leading-loose tracking-light text-center'>Latest Internships on Job Portal</h3> */}
+                        <Search/>
                 </div>
 
                 
@@ -57,7 +69,7 @@ const HomePage = () => {
                         internship &&
                         
                             internship.map((i)=>{
-                            return <Div  company={i.company} title={i.title} type={i.type} venue={i.venue} stipend={i.stipend} key={i._id}/>
+                            return <Div  company={i.company} title={i.title} type={i.type} venue={i.venue} stipend={i.stipend} key={i._id} id={i._id}/>
                         })
                         
                         
@@ -76,15 +88,25 @@ const HomePage = () => {
                     <Slider {...settings}>
                     {
                         job &&
-                        
                             job.map((i)=>{
-                            return <Div  company={i.company} title={i.title} type={i.type} venue={i.venue} stipend={i.stipend} key={i._id}/>
+                                // console.log('map ',i._id);
+                            return <Div  company={i.company} title={i.title} type={i.type} venue={i.venue} stipend={i.stipend} key={i._id} id={i._id}/>
                         })
                         
                         
                     }
                     </Slider>
                     
+                </div>
+                <div className='h-[40%] w-full bg-blak'>
+                <Marquee>
+                    <img src={google} className='h-[30%] w-[30%] bg-transparent'/>
+                    <img src={microsoft} className='h-[20%] w-[10%] object-cover'/>
+                    <img src={cisco} className='h-[30%] w-[30%]'/>
+                    <img src={adobe} className='h-[30%] w-[30%]'/>
+                    <img src={ibm} className='h-[30%] w-[30%]'/>
+
+                </Marquee>
                 </div>
                 <Footer/>
             </div>
