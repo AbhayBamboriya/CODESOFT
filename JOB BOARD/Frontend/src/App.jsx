@@ -6,6 +6,10 @@ import HomePage from './Layout/HomePage'
 import Description from './Pages/Description'
 import Internship from './Pages/Internship'
 import Apply from './Compnents/Apply'
+import MyApplication from './Pages/MyApplication'
+import Jobs from './Pages/Jobs'
+import Applicants from './Pages/Applicants'
+import Post from './Pages/Post'
 function App() {
 
 
@@ -17,7 +21,12 @@ function App() {
           <Route path='/' element={<HomePage/>}/>
           <Route path='/:id' element={<Description/>}/>
           <Route path='/Internship' element={<Internship/>}/>
+          <Route path='/Job' element={<Internship/>}/>
           <Route path= {`/apply/:id`} element={<Apply/>}/>
+          <Route path='/application' element={<MyApplication/>}/>
+          <Route path='/applicants' element={<Applicants/>}/>
+          <Route path='/list' element={<Jobs/>}/>
+          <Route path='/post' element={<Post/>}/>
         </Routes>
     </>
   )

@@ -1,8 +1,8 @@
 body{
   /* width: 10%; */
   background-color: #0c0c1d;
-  /* background-image: linear-gradient(#0c0c1d, rgb(188, 188, 122)); */
-  background-color: gray;
+  background-image: linear-gradient(#0c0c1d, rgb(188, 188, 122));
+  /* background-color: gray; */
 
 }
 *{

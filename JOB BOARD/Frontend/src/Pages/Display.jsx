@@ -11,7 +11,7 @@ const Display = ({id,company,title,type,venue,stipend}) => {
     }
     // console.log('detail in display',{id,company,title,type,venue,stipend});
   return (
-        <div className='h-[50%] bg-back mt-[2%] border-2 shadow-xl cursor-pointer p-[3%] hover:bg-gray-200 ' onClick={Click}>
+        <div className='h-[15%] bg-back mt-[2%] border-2 shadow-xl cursor-pointer p-[3%] hover:bg-gray-200 ' onClick={Click}>
         <h1 className='font-bold text-xl'>{company}</h1>
         <h2 className='font-normal text-gray-600'>{title}</h2>
         <div className='flex gap-[3%] bg-blac '>

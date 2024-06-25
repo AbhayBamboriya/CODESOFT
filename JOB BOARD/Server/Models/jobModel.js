@@ -63,7 +63,10 @@ const JobSchema =  new Schema({
         type:'Number',
         reqired:[true,'Stipend is Required'],
     },
-
+    id:{
+        type:'String',
+        reqired:[true,'ID is Required'],
+    },
     deadline:{
         type:'Date',
         requried:[

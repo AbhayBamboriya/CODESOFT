@@ -29,6 +29,18 @@ export const AllJobs=createAsyncThunk('/',async()=>{
     }
 })
 
+
+
+export const FetchDetailOfAllPost=createAsyncThunk('/find',async(id)=>{
+    try{
+        const res=jobInstance.get(`/filter/${id}`)
+        return (await res).data
+    }
+    catch(e){
+        toast.error(e?.response?.data?.message)
+    }
+})
+
 export const FindingByID=createAsyncThunk('/find',async(id)=>{
     try{
         const res=jobInstance.get(`/${id}`)

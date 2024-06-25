@@ -11,7 +11,7 @@ function Div({id,company,title,type,venue,stipend}){
     
     
   return (
-    <div className='bg-blak text-white  h-full  bg-[#0c0c2a] gap-2px flex  rounded-2xl flex-col mt-[4%]'>
+    <div className='bg-blak text-white w-[90%]  hover:w-full bg-[#0c0c2a] hover:bg-[#0A0A25] transition-all ease-in-out duration-500 gap-2px flex  rounded-2xl flex-col mt-[4%]'>
       <div className='flex flex-col gap-[6%] bg-blck h-full m-[10%] justify-items-end'>
         <div className=''>
             <h1 className='font-bold text-2xl' >{title}</h1>

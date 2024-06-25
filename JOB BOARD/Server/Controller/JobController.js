@@ -6,21 +6,25 @@ import fs from 'fs/promises'
 const createJob =async(req,res,next)=>{
     try{
         console.log(req.body);
+        const {id}=req.params
+        console.log('id is',id);
         const {title,venue,stipend,deadline,company,type,experience,description,salary,perks,skills}=req.body;
-        if(!title || !venue || !perks || !type || !salary ||!company || !stipend || !skills || !experience || !description ||!deadline){
+        if(!title || !id || !venue || !perks || !type || !salary ||!company || !stipend || !skills || !experience || !description ||!deadline){
             return next(new AppError('All fields are Required',400))
         }
-        const exist=await Job.findOne ({
-            title
-        }).and  ([{company,type}])
-        // console.log('exist',exist);
-        if (exist){
+        // if(!)
+        // const exist=await Job.findOne ({
+        //     id
+        // }).and  ([{company,type}])
+        // // console.log('exist',exist);
+        // if (exist){
             
-            return next(new AppError('Job already posted',400))
-        }
+        //     return next(new AppError('Job already posted',400))
+        // }
         console.log('ttt');
         const creatingJob=await Job.create({
             title,
+            id,
             company,
             stipend,
             salary,
@@ -56,12 +60,38 @@ const createJob =async(req,res,next)=>{
 const getById=async (req,res,next)=>{
     try{
         const {id}=req.params
+        console.log('id is',id);
         const job=await Job.findById(id)
         console.log('req',job);
         res.status(200).json({
             success:true,
             message:'Jobs',
             job
+        })
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
+} 
+
+const FindById=async (req,res,next)=>{
+    try{
+        const {Id}=req.params
+        console.log('id is',Id);
+        // const job=await Job.findById(id)
+
+        // const exist=await Job.findOne ({
+        //     id
+        // }).and  ([{company,type}])
+
+        const AllPost=await Job.find ({
+            id:Id
+        })
+        
+        res.status(200).json({
+            success:true,
+            message:'Jobs',
+            AllPost
         })
     }
     catch(e){
@@ -134,8 +164,7 @@ const apply=async (req,res,next)=>{
         await user.save()
         res.status(200).json({
             success:true,
-            message:'Applied for the job',
-            user    
+            message:'Applied for the job'
         })
     }
     catch(e){
@@ -231,5 +260,6 @@ export {
     getInternshipByTitle,
     getJobByTitle
     ,getById,
-    apply
+    apply,
+    FindById
 }

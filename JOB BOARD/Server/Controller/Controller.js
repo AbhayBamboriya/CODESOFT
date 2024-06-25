@@ -14,10 +14,14 @@ const cookieOptions={
 const register  = async(req,res,next)=>{
     try{
         console.log('dd',req.file);
-        const {fullName,email,password}=req.body;
-        console.log('data',fullName,email,password);
-        if( !email || !password || !fullName){
+        const {fullName,email,password,role}=req.body;
+
+        console.log('data',fullName,email,password,role);
+        if( !email || !password || !fullName || !role){
             return next(new AppError('All fields are Required',400))
+        }
+        if(role!='Employee' && role!='Admin'){
+            return next(new AppError(`Invalid Role,${role}`,400))
         }
         const userExists = await User.findOne({email})
         if(userExists){
@@ -37,6 +41,7 @@ const register  = async(req,res,next)=>{
             fullName,
             email,
             password,
+            role,
             profile:{
                 public_id:email,
                 // secureurl is  environment variable with api key,api secret
@@ -94,7 +99,7 @@ const register  = async(req,res,next)=>{
         })
     }
     catch(e){
-        return next(new AppError(e,500))
+        return next(new AppError(e.message,500))
     }
 }
 

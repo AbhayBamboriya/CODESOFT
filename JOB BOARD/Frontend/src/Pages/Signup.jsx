@@ -17,7 +17,8 @@ function Signup() {
         password:"",
         ConfirmPassword:"",
         fullName:"",
-        profile:""
+        profile:"",
+        role:""
 
     })
 
@@ -141,7 +142,7 @@ function Signup() {
             </motion.div>
 
             {/* <div className='w-[80%] h-[100%] bg-blak md:h-[50%]'> */}
-                <motion.form initial={{opacity:0}} whileInView={{opacity:1}} transition={{delay:3,duration:1}} className='flex flex-col gap-5 relative lg:h-[50%] w-[30%] mt-[-100%] md:h-[100%] bg-back md:w-[100%] items-center max-sm:w-[90%] max-sm:h-[75%] max-md:w-[100%] max-md:h-[60%] max-sm:gap-8 max-sm:ml-[20px]'  onSubmit={signin}>
+                <motion.form initial={{opacity:0}} whileInView={{opacity:1}} transition={{delay:3,duration:1}} className='flex flex-col gap-5 relative lg:h-[50%] w-[30%] mt-[-80%] md:h-[100%] bg-back md:w-[100%] items-center max-sm:w-[90%] max-sm:h-[75%] max-md:w-[100%] max-md:h-[60%] max-sm:gap-8 max-sm:ml-[20px]'  onSubmit={signin}>
                 <label htmlFor="image_uploads" className="cursor-pointer">
                             {previewImage ? (
                                 <img className="w-24 h-24 rounded-full m-uto" src={previewImage}/>
@@ -162,7 +163,12 @@ function Signup() {
                         <motion.input variants={variants} initial="initial1" whileInView="animate" type="text" name="email" placeholder='Enter your Email' className='bg-transparent border-2 text-white lg:h-[30%] p-5 w-[100%] lg:w-[90%] border-red-200 rounded-xl md:h-[10%] md:w-[70%] max-sm:h-[20%]' onChange={handleUserInput} value={signupData.email}/>
                         <motion.input variants={variants} initial="initial" whileInView="animate" type="password" name="password" id="" placeholder='Enter password' className='bg-transparent border-2 text-white lg:h-[30%] w-[100%] lg:w-[90%] p-5 border-red-200 rounded-xl md:h-[10%] md:w-[70%] max-sm:h-[20%]' onChange={handleUserInput} value={signupData.password}/>
                         <motion.input variants={variants} initial="initial1" whileInView="animate" type="password" name="ConfirmPassword" placeholder='Enter your Confirm Password' className='bg-transparent border-2 text-white lg:h-[30%] p-5 w-[100%] lg:w-[90%] border-red-200 rounded-xl md:h-[10%] md:w-[70%] max-sm:h-[20%]' onChange={handleUserInput} value={signupData.ConfirmPassword}/>
-                        <motion.button type='submit' variants={variants} initial="button" whileInView="animate" className='bg-orange-500 lg:h-[35%] h-full lg:w-[90%] max-md:h-[70%] w-[100%] rounded-xl md:w-[70%] max-sm:h-[20%] max-lg:h-[10%]' >Submit</motion.button> 
+                        <select id="options" class="bg-transparent mt-1 block w-full border text-3  w-[100%] lg:w-[90%] md:w-[70%] md:h-[10%] lg:h-[30%]  max-sm:h-[20%] border-gray-300 bg-white p-5 rounded-xl shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name='role' value={signupData.role} onChange={handleUserInput}>
+            <option value="" disabled selected className='bg-re-300 text-xl itali text-rose-500 focus:bg-red-400'>Role</option>
+            <option value="Admin" className='bg-re-300 text-xl itali text-rose-500 focus:bg-red-400'>Admin</option>
+            <option value="Employee" className='bg-re-300 text-xl itali text-rose-500 hover:bg-red-400'>Employee</option>
+        </select>
+                        <motion.button type='submit' variants={variants} initial="button" whileInView="animate" className='bg-orange-500 lg:h-[35%] h-full lg:w-[90%] max-md:h-[70%] w-[100%] rounded-xl md:w-[70%] max-sm:h-[20%] max-lg:h-[10%] p-4' >Submit</motion.button> 
                 </motion.form>
             </div>
             </div>

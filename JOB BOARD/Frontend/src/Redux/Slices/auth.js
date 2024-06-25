@@ -38,7 +38,7 @@ export const createAccount=createAsyncThunk('/auth/signup',async(data) =>{
 
 export const login=createAsyncThunk('/auth/login',async(data) =>{
     try{
-        console.log('check',data.email," ",data.password);
+        console.log('check',data.email," ",data);
         const res= axiosInstance.post('/login',data)
         toast.promise(res,{
             loading:"Wait! Authentication in Progress ",
@@ -118,12 +118,15 @@ const authSlice=createSlice({
             // we have stored in local storage because
             // statte will be fetched from local storage
             // current state will not be accessed from the local storage thatswhy we have saved in the state
-            localStorage.setItem("data",JSON.stringify(action?.payload?.user))
+            console.log('in loginchekinnnn',action);
+            localStorage.setItem("data",action?.payload?.user)
             localStorage.setItem("isLoggedIn",true)
             localStorage.setItem("role",action?.payload?.user?.role)
             state.isLoggedIn=true
             state.data=action?.payload?.user
-            state.role=action?.payload?.user?.role
+            state.id=action?.payload?.user?._id
+            console.log('inlocat storage',localStorage," ",localStorage.role);
+            state.role=localStorage.role
         })
         .addCase(logout.fulfilled,(state)=>{
             localStorage.clear();
