@@ -26,6 +26,7 @@ import Navbar from '../Pages/Navbar'
 const HomePage = () => {
     const dispatch=useDispatch()
     const {internship,job}=useSelector((state)=>state.services)
+    // internship.splice(1,6);
     const isLoggedIn=useSelector((state)=>state.auth.isLoggedIn)
     const role=useSelector((state)=>state.auth.role)
     // console.log('role is',role);
@@ -71,7 +72,6 @@ const HomePage = () => {
                     <Slider {...settings}>
                     {
                         internship &&
-                        
                             internship.map((i)=>{
                             return <Div  company={i.company} title={i.title} type={i.type} venue={i.venue} stipend={i.stipend} key={i._id} id={i._id}/>
                         })

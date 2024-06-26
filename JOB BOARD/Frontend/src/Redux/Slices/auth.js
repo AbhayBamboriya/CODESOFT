@@ -3,8 +3,11 @@ import toast from "react-hot-toast";
 import  axiosInstance  from "../../Helpers/axiosInstance";
 
 const initialState={
-    // isLoggedIn:localStorage.getItem('isLoggedIn')   || false,
-    // role:localStorage.getItem('role') || "",
+    isLoggedIn:localStorage.getItem('isLoggedIn') || '',
+    id:localStorage.getItem('id')   || '',
+
+    role:localStorage.getItem('role') || '',
+
 }  
 
 export const createAccount=createAsyncThunk('/auth/signup',async(data) =>{
@@ -35,7 +38,6 @@ export const createAccount=createAsyncThunk('/auth/signup',async(data) =>{
     }
 })
 
-
 export const login=createAsyncThunk('/auth/login',async(data) =>{
     try{
         console.log('check',data.email," ",data);
@@ -57,7 +59,7 @@ export const login=createAsyncThunk('/auth/login',async(data) =>{
 
 export const logout = createAsyncThunk("/auth/logout",async ()=>{
     try{
-        const res=axiosInstance.get("/user/logout")
+        const res=axiosInstance.get("/logout")
         console.log('res'+(await res).data);
         toast.promise(res,{
             loading:"Wait! Logout in Progress ",
@@ -121,6 +123,7 @@ const authSlice=createSlice({
             console.log('in loginchekinnnn',action);
             localStorage.setItem("data",action?.payload?.user)
             localStorage.setItem("isLoggedIn",true)
+            localStorage.setItem("id",action?.payload?.user._id)
             localStorage.setItem("role",action?.payload?.user?.role)
             state.isLoggedIn=true
             state.data=action?.payload?.user
@@ -132,6 +135,7 @@ const authSlice=createSlice({
             localStorage.clear();
             state.data={}
             state.isLoggedIn=false
+            state.id=""
             state.role=""
         })
 

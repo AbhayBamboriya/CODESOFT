@@ -5,6 +5,7 @@ import Search from '../Compnents/Search';
 import { FaFilter } from "react-icons/fa6";
 import { filteredData } from '../Redux/Slices/JobInternSlice';
 import { useLocation } from 'react-router-dom';
+import Navbar from './Navbar';
 const Internship = () => {
     const dispatch=useDispatch()
     const {internship,job}=useSelector((state)=>state.services)
@@ -21,7 +22,8 @@ const Internship = () => {
    
   return (
 
-    <div className='flex justify-center items-enter h-[100vh]'>
+    <div className='flex flex-cl justify-center items-enter h-[100vh]'>
+      {/* <Navbar/> */}
         <div className='bg-gray-100 h-[100vh] w-1/4 flex justify-center items-center p-[2%] flex-col gap-2'>
                 <h1 className='italic text-2xl flex items-center gap-[2%]'><FaFilter className='text-sky-800'/>Filters</h1>
                <Search updateSearchTerm={setDomain} placeholder='Enter Domain' id="location"/>

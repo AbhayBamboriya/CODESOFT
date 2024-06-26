@@ -100,9 +100,9 @@ const Description = () => {
   return (
     <div className='flex flex-col items-center h-fit  justify-center'>
         <Navbar/>
-        <div className='w-[60%] h-[100vh] border-2 text-black flex  bg-whte  item-center jusify-center p-[2%] rounded-xl mt-[5%]'>
+        <div className='w-[60%] h-fit-content border-2 text-black flex  bg-whte  item-center jusify-center p-[2%] rounded-xl mt-[5%]'>
           
-          <div className='w-full  h-full bg-blck flex flex-col gap-[3%]'>
+          <div className='w-full  h-full bg-blck flex flex-col gap-10'>
               <h1 className='font-black text-black text-5xl leading-tight tracking-tighter text-center italic'>Applying For {job?.detail?.title} {job?.detail?.type}</h1>
               <h1 className='text-gray-400 font-bold text-xl'>{job?.detail?.company}</h1>
               <p className='flex items-center j stify-center text-xl gap-2'><CiLocationOn/>{job?.detail?.venue}</p>
