@@ -20,7 +20,7 @@ const Applicants = () => {
 
       console.log('state daataa',data);
   return (
-    <div className='h-screen     w-full '>
+    <div className='h-fit     w-full '>
         
         <div className='flex items-center justiy-center bg- h-full w-full flex-col '>
             <h1 className='text-6xl font-bold m-[3%] text-center'>Applicants</h1>
@@ -47,6 +47,7 @@ const Applicants = () => {
                         
                     </tr>
                 </thead>
+                let t=1
                 <tbody className='gap-11px'> 
                 {
                         data.length > 0 && 

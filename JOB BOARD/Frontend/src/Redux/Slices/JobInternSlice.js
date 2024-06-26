@@ -51,6 +51,25 @@ export const FindingByID=createAsyncThunk('/find',async(id)=>{
     }
 })
 
+export const Posting=createAsyncThunk('/post',async(data)=>{
+    try{
+        console.log('data in slice',data);
+        const res=  jobInstance.post(`/post/${data.id}`,data)
+        toast.promise(res,{
+            loading:`${data.type} Posting`,
+            success:(data)=>{
+                return data?.data?.message
+            },
+            error:`Some Error occured in posting ${data.type}`
+        });
+        // console.log('res from backend',res);
+        return (await res).data
+    }
+    catch(e){
+        toast.error(e?.response?.data?.message)
+    }
+})
+
 
 
 
