@@ -148,6 +148,19 @@ const authSlice=createSlice({
             state.data=action?.payload?.user
             state.role=action?.payload?.user?.role
         })
+
+        .addCase(createAccount.fulfilled,(state,action)=>{
+            console.log('action in new',action);
+            localStorage.setItem("data",action?.payload?.user)
+            localStorage.setItem("isLoggedIn",true)
+            localStorage.setItem("id",action?.payload?.user._id)
+            localStorage.setItem("role",action?.payload?.user?.role)
+            state.isLoggedIn=true
+            state.data=action?.payload?.user
+            state.id=action?.payload?.user?._id
+            console.log('inlocat storage',localStorage," ",localStorage.role);
+            state.role=localStorage.role
+        })
     }
 })
 

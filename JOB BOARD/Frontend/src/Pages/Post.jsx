@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Posting } from '../Redux/Slices/JobInternSlice';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 const Post = () => {
   const navigate=useNavigate()
   const [postData,setPostData]=useState({
@@ -21,7 +22,6 @@ const Post = () => {
   })
   const dispatch=useDispatch()
   const id=useSelector((state)=>state?.auth?.id)
-  console.log('id is',id);
   function handleUserInput(e){
       const {name,value}=e.target;
       setPostData({
@@ -34,12 +34,12 @@ const Post = () => {
 const [skills, setSkills] = useState(['']);
 const [perks, setPerks] = useState(['']);
 
-const handleAddInput = (e) => {
+const handleAddInputSkill = (e) => {
   e.preventDefault()
   setSkills([...skills, '']);
 };
 
-const handleRemoveInput = (event) => {
+const handleRemoveInputSkills = (event) => {
   event.preventDefault();
   // Remove the last element from the array
   const values = [...skills];
@@ -48,7 +48,7 @@ const handleRemoveInput = (event) => {
     setSkills(values);
   }
 };
-const handleRemoveInput1 = (event) => {
+const handleRemoveInputPerks = (event) => {
   event.preventDefault();
   // Remove the last element from the array
   const values = [...perks];
@@ -58,7 +58,7 @@ const handleRemoveInput1 = (event) => {
   }
 };
 
-const handleInputChange = (index, event) => {
+const handleInputChangeSkill = (index, event) => {
   const values = [...skills];
   values[index] = event.target.value;
   setSkills(values);
@@ -66,14 +66,14 @@ const handleInputChange = (index, event) => {
 
 
 
-const handleAddInput1 = (e) => {
+const handleAddInputPerks = (e) => {
   e.preventDefault()
   setPerks([...perks, '']);
 };
 
 
 
-const handleInputChange1 = (index, event) => {
+const handleInputChangePerks = (index, event) => {
   const values = [...perks];
   values[index] = event.target.value;
   setPerks(values);
@@ -96,6 +96,18 @@ async function Post(e){
     ...prevPostData,
     id:id
   }));
+  console.log('bMBORITA');
+  console.log(!postData.company);
+  // console.log(!);
+  if(!postData.company || !postData.deadline || !postData.description || !postData.experience || !postData.perks || !postData.skills || !postData.title || !postData.type ||  !postData.venue || (postData.type=='Internship' && !postData.stipend) || (postData.type=='Job' && !postData.salary)){
+    console.log('aBhay');
+    toast.error('All Fields are required')
+           return
+      
+  }
+
+  console.log('conditon',!postData.salary,!postData.stipend);
+  console.log('postdata',postData);
   const res= await dispatch(Posting(postData))
   console.log('resdjdfjdf',res);
 
@@ -119,62 +131,162 @@ useEffect(() => {
 }, [skills, perks]);
 
   return (
-    <div className="w- min-h-[100vh] h-fit-content bg-[url('/src/assets/background.jpg')] bg-cover">
-        <form className='flex flex-col gap-5 lg:h-[50%] w-[10%]  md:h-[100%] bg-blak md:w-[100%] items-center max-sm:w-[90%] max-sm:h-[75%] max-md:w-[100%] max-md:h-[60%] max-sm:gap-8'>
-                    <input placeholder='Enter Company' type='text' name="company" className='p-4' value={postData.company} onChange={handleUserInput}/>
-                    <input placeholder='Enter Title' type='text' name="title" className='p-4'  value={postData.title}  onChange={handleUserInput}/>
-                    <input placeholder='Enter Venue' type='text' name="venue" className='p-4'  value={postData.venue} onChange={handleUserInput}/>
-                    <input placeholder='Enter Salary' type='text' name="salary" className='p-4'  value={postData.salary} onChange={handleUserInput}/>
-                    <input placeholder='Enter Salary' type='text' name="stipend" className='p-4'  value={postData.stipend} onChange={handleUserInput}/>
-                    <input placeholder='Experience Required' type='text' name="experience" className='p-4'  value={postData.experience} onChange={handleUserInput}/>
-                    <input placeholder='Deadline' type='text' name="deadline" className='p-4'  value={postData.deadline} onChange={handleUserInput}/>
-                    <textarea placeholder='Enter Description' type='text' name="description" className='p-4'  value={postData.description} onChange={handleUserInput}/>
+      <div className='flex items-center justify-center'>
 
-                    {/* <label for="options" class="block text-sm font-medium text-gray-700">Select an option</label> */}
-                    <select id="options" class="mt-1 block w-full border text-3 bg-transparent  lg:w[90%] md:w-[70%] md:h-[10%] lg:h-[30%]  max-sm:h-[20%] border-gray-300 bg-white p-5 rounded-xl shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name='type' value={postData.type} onChange={handleUserInput}>
-                        <option value="" disabled selected className='bg-re-300 text-xl itali text-rose-500 focus:bg-red-400'>Type</option>
-                        <option value="Internship" className='bg-re-300 text-xl itali text-rose-500 focus:bg-red-400'>Internship</option>
-                        <option value="Job" className='bg-re-300 text-xl itali text-rose-500 hover:bg-red-400'>Job</option>
-                    </select>
-
-                    <div className="flex flex-col gap-3">
-                        
-                            <div className='flex flex-col gap-3'>
-                            {skills.map((input, index) => (
-                              <input
-                                key={index}
-                                type="text"
-                                value={input}
-                                onChange={(event) => handleInputChange(index, event)}
-                                placeholder="Add Skill"
-                                className='p-2'
-                              ></input>
-                            ))}
-                            <button onClick={handleRemoveInput}> Remove</button>
-                            
+<div className="w- min-h-[100vh] h-fit-content flex flex-col justify-centeitems-center bg-red-200 rounded-3xl rounded-full bg-content w-[70%] p-[4%]">
+  <h1 className='text-center font-sans text-5xl'>Add New Post</h1>
+      
+            <main className='grid grid-cols-2 gap-x-10 overflow--scroll mt-[5%] '>
+                        <div className='gap-y-6'>
+                            <div>
+                                
+                                
                             </div>
-                          <button onClick={handleAddInput}>Add More Skill</button>
-                      </div>
-                      <div className="flex flex-col gap-3">
+                            <div className='flex flex-col gap-1'>
+                                    <input 
+                                        type="text" 
+                                        required 
+                                        name='title' 
+                                        id='title' 
+                                        placeholder='Enter Title' 
+                                        className='bg-transparent px-2 py-2 border rounded-xl '
+                                        value={postData.title}
+                                        onChange={handleUserInput} 
+                                        />
+                                    <input 
+                                        type="text" 
+                                        required 
+                                        name='company' 
+                                        id='company' 
+                                        placeholder='Enter Company' 
+                                        className='bg-transparent px-2 py-2 border rounded-xl'
+                                        value={postData.company}
+                                        onChange={handleUserInput} 
+                                        />
+
+                                    <select id="options" class="m- h-15 block w-full border text-3 bg-transparent  border-gray-300 bg-white p-5 rounded-xl shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name='type' value={postData.type} onChange={handleUserInput}>
+                                        <option value="" disabled selected className='bg-re-300 text-xl itali text-rose-500 focus:bg-red-400'>Type</option>
+                                        <option value="Internship" className='bg-re-300 text-xl itali text-rose-500 focus:bg-red-400'>Internship</option>
+                                        <option value="Job" className='bg-re-300 text-xl itali text-rose-500 hover:bg-red-400'>Job</option>
+                                    </select>
+                                    <input 
+                                    type="text" 
+                                    required 
+                                    name='experience' 
+                                    id='experience' 
+                                    placeholder='Experience Required' 
+                                    className='bg-transparent px-2 py-1 border'
+                                    value={postData.experience}
+                                    onChange={handleUserInput}
+                                     />
+                                    <div className="flex flex-col gap-3">
                         
                         {perks.map((input, index) => (
                           <input
                             key={index}
                             type="text"
                             value={input}
-                            onChange={(event) => handleInputChange1(index, event)}
+                            onChange={(event) => handleInputChangePerks(index, event)}
                             placeholder="Add Perks"
-                            className='flex p-2'
+                            className='flex p-2 bg-transparent rounded-xl border'
                           />
                         ))}
-                      <button onClick={handleAddInput1}>Add Perks</button>
+                      <div className='flex gap-5 justify-center'>
+                      <button onClick={handleAddInputPerks} className='px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-700 rounded-xl'>Add Perks</button>
+                      {perks.length>1 &&<button onClick={handleRemoveInputPerks} className='px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-700 rounded-xl'>Remove Perks</button>}
+                      </div>
                   </div>
 
+                            </div>
+                        </div>
+                        <div className='flex flex-col gap-1'>
+                            <div className='flex flex-col gap-1'>
+                                        <input 
+                                            type="text" 
+                                            required 
+                                            name='venue' 
+                                            id='venue' 
+                                            placeholder='Enter venue ' 
+                                            className='bg-transparent px-2 py-2 border rounded-xl'
+                                            value={postData.venue}
+                                            onChange={handleUserInput} 
+                                            />
+                            </div>
 
-                  <button onClick={Post}>Submit</button>
-                    
-            </form>
+                            <div className='flex flex-col gap-1'>
+                                {postData.type=='Job' && <input 
+                                    type="text" 
+                                    required 
+                                    name='salary' 
+                                    id='salary' 
+                                    placeholder='Enter Salary' 
+                                    className='bg-transparent px-2 py-2 border rounded-xl'
+                                    value={postData.salary}
+                                    onChange={handleUserInput} 
+                                    />}
+                                {console.log('type',postData.type)}
+                                {postData.type!='' && postData.type!='Job' &&  <input 
+                                    type="text" 
+                                    required 
+                                    name='stipend' 
+                                    id='stipend' 
+                                    placeholder='Enter Stipend' 
+                                    className='bg-transparent px-2 py-2 border rounded-xl '
+                                    value={postData.stipend}
+                                    onChange={handleUserInput} 
+                                    /> }   
+                            </div>
+                            
+                            <div className='flex flex-col gap-2'>
+                                
+
+                                <input 
+                                    type="date" 
+                                    required 
+                                    name='deadline' 
+                                    id='deadline' 
+                                    placeholder='Deadline' 
+                                    className='bg-transparent px-2 py-1 border'
+                                    value={postData.deadline}
+                                    onChange={handleUserInput}
+                                     />
+                                <textarea
+                                    placeholder='Enter Description' 
+                                    type='text' 
+                                    // onResize={none}
+                                    // resize-none
+                                    name="description" 
+                                    className='p-4 bg-transparent border resize-none'  
+                                    value={postData.description} 
+                                    onChange={handleUserInput}
+                                />
+
+<div className='flex flex-col gap-3'>
+                            {skills.map((input, index) => (
+                              <input
+                                key={index}
+                                type="text"
+                                value={input}
+                                onChange={(event) => handleInputChangeSkill(index, event)}
+                                placeholder="Add Skill"
+                                className='p-2 bg-transparent border rounded-xl '
+                              ></input>
+                            ))}
+                            <div className='flex gap-5 justify-center '>
+                                <button onClick={handleAddInputSkill} className='px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-700 rounded-xl'>Add Skill</button>
+                                {console.log('cjeckign length',skills.length)}
+                                {skills.length>1 &&<button onClick={handleRemoveInputSkills} className='px-5 py-2 bg-gradient-to-r from-cyan-500 to-blue-700 rounded-xl'> Remove Skill</button>}
+                            </div>
+                            
+                            </div>
+
+
+                            </div>
+                        </div>
+                    </main>
+                    <button className='text-center bg-gradient-to-r from-cyan-500 to-blue-700  hover:from-pink-500 hover:to-yellow-500 w-[10%] py-3 rounded-xl' onClick={Post}>Submit</button>
     </div>
+      </div>
   )
 }
 

@@ -75,15 +75,17 @@ function Signup() {
         const response=await dispatch(createAccount(signupData))
         // going o home page
         console.log('respone- '+JSON.stringify(response));
-        // if(response?.payload?.success) navigate('/')
+        if(response?.payload?.success) navigate('/')
         // clearing all the entry
-        // setPreviewImage('')
-        // setSignupData({
-        //     fullName:"",
-        //     email:"",
-        //     password:"",
-        //     avatar:""
-        // })
+        setPreviewImage('')
+        setSignupData({
+            fullName:"",
+            email:"",
+            password:"",
+            avatar:"",
+            role:"",
+            ConfirmPassword:""
+        })
 
 
 

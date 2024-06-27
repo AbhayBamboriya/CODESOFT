@@ -21,9 +21,9 @@ const Internship = () => {
     },[searchLocation,Domain])
    
   return (
+    
+    <div className='flex flex-co justify-center items-enter h-[100vh]'>
 
-    <div className='flex flex-cl justify-center items-enter h-[100vh]'>
-      {/* <Navbar/> */}
         <div className='bg-gray-100 h-[100vh] w-1/4 flex justify-center items-center p-[2%] flex-col gap-2'>
                 <h1 className='italic text-2xl flex items-center gap-[2%]'><FaFilter className='text-sky-800'/>Filters</h1>
                <Search updateSearchTerm={setDomain} placeholder='Enter Domain' id="location"/>

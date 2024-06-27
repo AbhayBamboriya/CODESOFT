@@ -9,7 +9,7 @@ const createJob =async(req,res,next)=>{
         const {id}=req.params
         console.log('id is',id);
         const {title,venue,stipend,deadline,company,type,experience,description,salary,perks,skills}=req.body;
-        if(!title || !id || !venue || !perks || !type || !salary ||!company || !stipend || !skills || !experience || !description ||!deadline){
+        if(!title || !id || !venue || !perks || !type  ||!company  || !skills || !experience || !description ||!deadline || (type=='Internship' && !stipend) || (type=='Job' && !salary)){
             return next(new AppError('All fields are Required',400))
         }
         // if(!)

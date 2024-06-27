@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../Redux/Slices/auth'
@@ -10,8 +10,13 @@ const Navbar = () => {
     const isLoggedIn=useSelector((state)=>state.auth.isLoggedIn)
     const role=useSelector((state)=>state.auth.role)
       const dispatch=useDispatch()
+      const navigate=useNavigate()
     async function Logout(){
-        await dispatch(logout())
+        const res=await dispatch(logout())
+        console.log('res gtom logout',res);
+        if(res?.payload?.success){
+          navigate('/')
+        }
      }
   return (
     <nav className='mt-[5%]  w-full text-white flex gap-10 justify-around'>

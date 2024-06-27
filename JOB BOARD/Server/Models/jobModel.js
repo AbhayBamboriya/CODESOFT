@@ -15,14 +15,14 @@ const JobSchema =  new Schema({
     },
     venue:{
         type:'String',
-        requried:[true,'Venue is required'],
+        required:[true,'Venue is required'],
         lowercase:true,
         trim:true,
         unique:false
     },
     company:{
         type:'String',
-        requried:[true,'Company is required'],
+        required:[true,'Company is required'],
         lowercase:true,
         trim:true,
 
@@ -60,36 +60,36 @@ const JobSchema =  new Schema({
         required:[true,'Perks are Requried']
     }],
     stipend:{
-        type:'Number',
-        reqired:[true,'Stipend is Required'],
+        type:'String',
+        // required:[true,'Stipend is Required'],
     },
     id:{
         type:'String',
-        reqired:[true,'ID is Required'],
+        required:[true,'ID is Required'],
     },
     deadline:{
         type:'Date',
-        requried:[
+        required:[
             true,'Deadline is required'
         ]
     },
     experience:{
         type: 'String'||'Number',
-        requried:[
+        required:[
             true,'Experience is required'
         ]
     },
     description:{
         type:'String',
-        requried:[true,'description is required']
+        required:[true,'description is required']
     },
     // category:{
     //     type:'String',
     //     required:[true,'category is requried']
     // },
     salary:{
-        type:'Number' || 'String',
-        requried:[true,'Salary is required']
+        type:'String',
+        // required:[true,'Salary is required']
     },
     },{
     timestamps:true     
