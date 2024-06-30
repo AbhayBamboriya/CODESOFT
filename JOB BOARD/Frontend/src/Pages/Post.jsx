@@ -133,10 +133,10 @@ useEffect(() => {
   return (
       <div className='flex items-center justify-center'>
 
-<div className="w- min-h-[100vh] h-fit-content flex flex-col justify-centeitems-center bg-red-200 rounded-3xl rounded-full bg-content w-[70%] p-[4%]">
+<div className="w- min-h-[100vh]  h-fit-content flex flex-col justify-center items-center bg-red-200 rounded-xl rounded-full bg-content w-[70%] p-[4%]">
   <h1 className='text-center font-sans text-5xl'>Add New Post</h1>
       
-            <main className='grid grid-cols-2 gap-x-10 overflow--scroll mt-[5%] '>
+            <main className='grid grid-cols-2 w-full gap-x-10 overflow--scroll mt-[5%] '>
                         <div className='gap-y-6'>
                             <div>
                                 
@@ -284,7 +284,7 @@ useEffect(() => {
                             </div>
                         </div>
                     </main>
-                    <button className='text-center bg-gradient-to-r from-cyan-500 to-blue-700  hover:from-pink-500 hover:to-yellow-500 w-[10%] py-3 rounded-xl' onClick={Post}>Submit</button>
+                    <button className='text-center  bg-gradient-to-r from-cyan-500 to-blue-700  hover:from-pink-500 hover:to-yellow-500 w-[10%] py-3 rounded-xl' onClick={Post}>Submit</button>
     </div>
       </div>
   )

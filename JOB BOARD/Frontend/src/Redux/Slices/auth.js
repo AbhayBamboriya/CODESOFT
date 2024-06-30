@@ -5,7 +5,7 @@ import  axiosInstance  from "../../Helpers/axiosInstance";
 const initialState={
     isLoggedIn:localStorage.getItem('isLoggedIn') || '',
     id:localStorage.getItem('id')   || '',
-
+    
     role:localStorage.getItem('role') || '',
 
 }  
@@ -50,6 +50,17 @@ export const login=createAsyncThunk('/auth/login',async(data) =>{
             error:"Failed to Login"
         });
         return (await (res)).data
+    }
+    catch(e){
+        toast.error(e?.response?.data?.message)
+    }
+})
+
+export const FindByIdApplication=createAsyncThunk('/find',async(id)=>{
+    try{
+        const res=await axiosInstance.get(`/detail`,id)
+        console.log('res fron bamboriya',res);
+        return (await res).data
     }
     catch(e){
         toast.error(e?.response?.data?.message)

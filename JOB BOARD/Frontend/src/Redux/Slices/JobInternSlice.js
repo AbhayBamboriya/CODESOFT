@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 
 
 const initialState={
-    filteredData:[]
+    filteredData:[],
+    AllJobs:(localStorage.getItem('job')) || '',
+    // internship:localStorage.ge/tItem('internship') || ''
 }  
 
 export const AllInternship=createAsyncThunk('/auth/intern',async() =>{
@@ -100,7 +102,7 @@ const internJobSlice=createSlice({
         })
         
         .addCase(AllJobs.fulfilled,(state,action)=>{
-            // console.log('in state job',action);
+            console.log('in state job',action);
              localStorage.setItem("job",action?.payload?.Jobs)
              state.job=action?.payload?.Jobs
          })

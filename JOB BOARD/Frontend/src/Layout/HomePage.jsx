@@ -1,5 +1,4 @@
 import { Link, useLocation } from 'react-router-dom'
-import logo from '../assets/logo.png'
 import { AllInternship, AllJobs } from '../Redux/Slices/JobInternSlice'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,14 +11,14 @@ import jobimg from '../assets/pexels-george-milton-7034717.jpg'
 import jobimg1 from '../assets/pexel1.jpg'
 import jobimg2 from '../assets/pexel2.jpg'
 import jobimg3 from '../assets/pexels3.jpg'
-import Dropdown from './Dropdown'
 import Marquee from "react-fast-marquee";
-import google from '../assets/google.jpeg'
-import adobe from '../assets/adobe.jpeg'
-import microsoft from '../assets/microsoft.jpg'
-import ibm from '../assets/ibm.jpeg'
+import amazon from '../assets/amazon.jpeg'
 import cisco from '../assets/cisco.jpeg'
-import Search from '../Compnents/Search'
+import ibm from '../assets/ibm.jpeg'
+import google from '../assets/google.jpeg'
+import gms from '../assets/gms.jpeg'
+import microsoft from '../assets/microsoft.jpeg'
+
 import Navbar from '../Pages/Navbar'
 
 
@@ -27,6 +26,12 @@ const HomePage = () => {
     const dispatch=useDispatch()
     const {internship,job}=useSelector((state)=>state.services)
     // internship.splice(1,6);
+    const AllJob=useSelector((state)=>state.services.AllJobs)
+    console.log('all job is',AllJob);
+
+    // AllJob.forEach(obj => {
+    //     console.log('printing',JSON.stringify(obj, null, 2));
+    //   });
     const isLoggedIn=useSelector((state)=>state.auth.isLoggedIn)
     const role=useSelector((state)=>state.auth.role)
     // console.log('role is',role);
@@ -102,15 +107,24 @@ const HomePage = () => {
                         </Slider>
                     
                 </div>
-                <div className='h-[40%] w-full bg-blak'>
-                <Marquee>
-                    <img src={google} className='h-[30%] w-[30%] bg-transparent'/>
-                    <img src={microsoft} className='h-[20%] w-[10%] object-cover'/>
-                    <img src={cisco} className='h-[30%] w-[30%]'/>
-                    <img src={adobe} className='h-[30%] w-[30%]'/>
-                    <img src={ibm} className='h-[30%] w-[30%]'/>
-
-                </Marquee>
+                <div className='App mt-[50px] text-center'>
+                    <div className='mb-[50px]'>
+                        <h1>
+                            Our Recuirters
+                        </h1>
+                    </div>
+                    <div>
+                        {/* <Marquee>
+                            <div className='flex h-[1%] gap-2 img-wrapper m-8px'>
+                                <img src={google} alt="" srcset="" height={10} width={290} className='w-[20%]' />
+                                <img src={amazon} alt="" srcset="" width={290} className='w-[20%]' />
+                                <img src={cisco} alt="" srcset="" width={290} className='w-[20%]' />
+                                <img src={gms} alt="" srcset="" width={290} className='w-[20%]' />
+                                <img src={ibm} alt="" srcset="" width={290} className='w-[20%]' />
+                                <img src={microsoft} alt="" srcset="" width={190} className='w-[20%] h-[1%]' />
+                            </div>
+                        </Marquee> */}
+                    </div>
                 </div>
                 <Footer/>
             </div>

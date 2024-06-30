@@ -86,10 +86,14 @@ const register  = async(req,res,next)=>{
 
         // TODO: file upload
         await user.save()   // user will be saved
-        user.password=undefined
+        // user.password=undefined
         // ater registration for dirctly login thatswyh used jwt token
-        const token=await user.generateJWTToken()
+        // const token=await user.generateJWTToken()
         //   setting thetoken to cookie
+        // res.cookie('token',token,cookieOptions)
+        const token=await user.generateJWTToken()
+        user.password=undefined
+
         res.cookie('token',token,cookieOptions)
         // sendEmail(user.email)
         res.status(201).json({
@@ -120,11 +124,16 @@ const login=async(req,res,next)=>{
             return next(new AppError('Email and Password doesnot match',400))
         }
         // console.log('user from login ',user);
-        const token=await user.generateJWTToken()
-        console.log('token from login',token);
-        user.password=undefined
+        // const token=await user.generateJWTToken()
+        // console.log('token from login',token);
+        // console.log('user is',user);
+        // user.password=undefined
         // res.cookie('token',token,cookieOptions)
+        const token=await user.generateJWTToken()
+        user.password=undefined
+        res.cookie('token',token,cookieOptions)
         // console.log('after change ',res.cookie._id);
+        console.log('res cookie',res.cookie);
         res.status(200).json({
             success:true,
             message:"User loged in successfully",
@@ -332,7 +341,7 @@ const detail=async(req,res,next)=>{
         const {id}=req.body;
         console.log('id',id);
         if(!id){
-            return new AppError(400,'id required')
+            return next(new AppError('id required',400))
         }
         const user=await User.findById(id)
         if(user){

@@ -1,31 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FindingByID } from '../Redux/Slices/JobInternSlice'
+import { FindByIdApplication } from '../Redux/Slices/auth'
 
 const MyApplication = () => {
     const application=useSelector((state)=>state?.auth?.data?.apply)
+    const id=useSelector((state)=>state?.auth?.id)
     console.log('id and application',application)
     const dispatch =useDispatch()
     async function download(id){
         console.log('reaced here',id);
-        return await dispatch(FindingByID(id))
+        const res= await dispatch(FindByIdApplication(id))
+        console.log('res is details' ,res);
     }
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const results = await Promise.all(application.map(a => download(a.id)));
-            setData(results);
-          } catch (error) {
-            console.error("Error fetching data", error);
-          } finally {
-            setLoading(false);
-          }
-        };
-    
-        fetchData();
-      }, [application]);
+        download(id)
+      },[]);
 
       console.log('is use state',data);
   return (

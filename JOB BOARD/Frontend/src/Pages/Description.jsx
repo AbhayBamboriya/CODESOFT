@@ -98,7 +98,7 @@ const Description = () => {
 }
 
   return (
-    <div className='flex flex-col items-center h-fit  justify-center'>
+    <div className='flex flex-col items-center h-fit-content  justify-center'>
         <Navbar/>
         <div className='w-[60%] h-fit-content border-2 text-black flex  bg-whte  item-center jusify-center p-[2%] rounded-xl mt-[5%]'>
           

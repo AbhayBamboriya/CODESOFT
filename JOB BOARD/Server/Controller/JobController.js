@@ -60,7 +60,7 @@ const createJob =async(req,res,next)=>{
 const getById=async (req,res,next)=>{
     try{
         const {id}=req.params
-        console.log('id is',id);
+        console.log('id is abhay',id);
         const job=await Job.findById(id)
         console.log('req',job);
         res.status(200).json({

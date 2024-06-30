@@ -4,13 +4,16 @@ const isLoggedIn = async (req,res,next)=>{
     // due to cookie parser it can extract the token
     // console.log("cookie"+req.cookies);
     // console.log("cookie1"+req.cookie);
-    const {token}=req.cookies
-    // console.log("token "+token);
+    // console.log('req in isloggedin',req);
+    try{
+        const {token}=req.cookies
+    console.log("token "+token);
     if(!token){
         return next(new AppError('Unauthenticated , please login again',405))
     }
+    console.log('abhay');
     const userDetails=await jwt.verify(token,process.env.JWT_SECRET)
-    // console.log("userDetails"+userDetails);
+    console.log("userDetails"+userDetails);
     if (!userDetails) {
         return next(new AppError("Unauthorized, please login to continue", 401));
       }
@@ -18,6 +21,10 @@ const isLoggedIn = async (req,res,next)=>{
     // console.log('details',userDetails);
     req.user=userDetails
     next()
+    }
+    catch(e){
+        return next(new AppError(e.message,500))
+    }
 }
 
 // roles is passed as list in roles

@@ -19,6 +19,7 @@ const Applicants = () => {
     //   console.log('is use state',data);
 
       console.log('state daataa',data);
+      let t=1
   return (
     <div className='h-fit     w-full '>
         
@@ -47,23 +48,22 @@ const Applicants = () => {
                         
                     </tr>
                 </thead>
-                let t=1
+                
                 <tbody className='gap-11px'> 
                 {
                         data.length > 0 && 
                         data.map((m, idx) => {
                             if (m.apply.length > 0) {
                                 return m.apply.map((mt) => (
-                                    
                                     <tr key={mt.id} className='text-center text-xl bg-ed-200 p-3 border h-20 border-b-3px '>
-                                        {console.log('m.apply is',mt)}
-                                        <td>{idx + 1}</td>
+                                        <td>{t++}</td>
                                         <td>{m?.title}</td>
                                         <td>{m?.type}</td>
                                         <td>{m?.venue}</td>
                                         <td className='flex mt-[5%] justify-center text-5xl '><a href={mt.resume.secure_url}><FaFilePdf  className='hover:text-rose-400'/></a></td>
                                     </tr>
                                 ));
+                                
                             }
                             return null;    
                         })
