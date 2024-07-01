@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieParser  from 'cookie-parser'
 import morgan from 'morgan';
 import userRoutes from './Routes/UserRoutes.js'
+import QuizRoutes from './Routes/QuizRoutes.js'
 // import miscRoutes from './routes/misllaneous.routes.js'
 const app=express()
 // Enable CORS for all routes
@@ -31,6 +32,7 @@ app.use('/ping',function(req,res){
     res.send('/pong')
 })
 app.use('/user',userRoutes)
+app.use('/quiz',QuizRoutes)
 app.all('*',(req,res)=>{
     res.status(404).send('OOPS!!! 404 page not found')
 })
