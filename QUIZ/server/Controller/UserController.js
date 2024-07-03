@@ -6,7 +6,7 @@ const cookieOptions={
 }
 const register  = async(req,res,next)=>{
     try{
-        // console.log('dd',req);
+        console.log('dd',req.form);
         const {Name,email,password,role}=req.body;
 
         console.log('data',Name,email,password,role);
@@ -70,14 +70,9 @@ const login=async(req,res,next)=>{
         const user=await User.findOne({email}).select('+password')
         // !user || !user.comparePassword(password)
         if(!(user && (await user.comparePassword(password)))){
-            return next(new AppError('Email and Password doesnot match',400))
+            return next(new AppError('Email and Password does not match',400))
         }
-        // console.log('user from login ',user);
-        // const token=await user.generateJWTToken()
-        // console.log('token from login',token);
-        // console.log('user is',user);
-        // user.password=undefined
-        // res.cookie('token',token,cookieOptions)
+       
         const token=await user.generateJWTToken()
         user.password=undefined
         res.cookie('token',token,cookieOptions)

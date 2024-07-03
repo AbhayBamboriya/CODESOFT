@@ -1,0 +1,223 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+
+</title><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="shortcut icon" href="/Portal/headers/favicon.ico" /><link href="/Portal/headers/PortalStyle.css" type="text/css" rel="stylesheet" /><link href="https://fonts.googleapis.com/css?family=Hind|Roboto+Condensed" rel="stylesheet" />
+<script language="javascript" src="/Portal/headers/MPOnlineHeader/WriteConstants.js" type="text/javascript"></script>
+<script language="javascript" src="/Portal/headers/MPOnlineHeader/ErrorHandler.js" type="text/javascript"></script>
+<script type="text/javascript">
+langid='en-US';
+userName='Guest';
+ToggleURL="";
+kioskid="kioskID";
+kioskDate="Date";
+logindt="Date";
+balnce="Balnce";
+Header="subheaderblank()";
+ServerName="MPONLINE"; 
+timeServer = new Date('7/3/2024 7:51:43 PM');
+lblHome="Home";
+lblAboutMPOnline="About MPOnline";
+lblCitizenServices="Citizen Services";
+lblLocateKIOSK="Locate KIOSK/CSCs";
+lblApplyfornewKOISK="Apply for new KIOSK";
+lblContactUs="Contact us";
+lblLogin="Login";
+lblLogoff="Logoff";
+lblCitizen="Citizen";
+lnkKiosk="Kiosk";
+lblG2G="G2G ";
+lblFooterLocateKIOSK1="Locate KIOSK/CSCs";
+lblFaq="FAQ's";
+lblCareer="Career";
+lblContactHelpDesk="Contact HelpDesk";
+lblMPOnlineWebsite="MPOnline Website";
+lblDepartmentofPublicRelationMP="Department of Public Relation MP";
+lblMadhyaPradeshGovernment="Madhya Pradesh Government";
+lblChiefMinistersReliefFund="Chief Ministers Relief Fund";
+lblMPSEDC="MPSEDC";
+lblMPOnlineSurvey="MPOnline Survey";
+lblPrivacyPolicy="Privacy Policy";
+lblDisclaimer="Disclaimer";
+lblCopyright="Copyright \u00a9 2020 <img src='/Portal/Services/OnlineCounselling/CounsHomepage/images/footerlogo.png' alt='MPOnline Limited'/>";
+lblSiteBestView="Site best viewed in Microsoft Internet Explorer 10+, Mozilla Firefox and Google Chrome in 1024x768 resolution.";
+lblMPOnlineChanakya="MPOnline Chanakya";
+lblSkiptoMainContent="Skip to Main Content";
+lblSkiptoNavigation="Skip to Navigation";
+lblA1="A";
+lblGrievances="Grievances";
+lblFeedback="Feedback";
+lblWorkshopGallery="Workshop Picture Gallery";
+lblWorkshopGalleryBPL="Workshop - Bhopal";
+lblWorkshopGalleryIND="Workshop - Indore";
+lblWorkshopGalleryIND="Workshop - Jabalpur";
+lblWorkshopGalleryREWA="Workshop - Satna";
+lblWorkshopGalleryGWL="Workshop - Gwalior";
+lblMPONews="MPOnline News";
+lblDate="Date";
+LgTime="1800000";
+counsuser_add_capt =  "157#34#28#236";
+lblAdmin="Employee";
+lblPaymentPolicy="Payment Terms & Conditions";
+lblCancellation="Cancellation / Refund Policy";
+lblTermsOfUse="Terms of Use";
+</script>
+<script language="javascript" src="/Portal/headers/MPOnlineHeader/jquery.js" type="text/javascript"></script>
+<script language="javascript" src="/Portal/headers/MPOnlineHeader/slide.js" type="text/javascript"></script>
+<script language="javascript" src="/Portal/headers/MPOnlineHeader/SevicesLogo.js" type="text/javascript"></script> 
+<script language="javascript" src="/Portal/headers/MPOnlineHeader/subheader.js" type="text/javascript"></script> 
+<script language="javascript" src="/Portal/headers/MPOnlineHeader/PortalHeader.js" type="text/javascript"></script>
+<script language="javascript" src="/Portal/headers/MPOnlineHeader/Kiosk.js" type="text/javascript"></script>
+
+<!--<script language="javascript" src="/Portal/headers/MPOnlineHeader/Zoom.js" type="text/javascript"></script>-->
+<script type="text/javascript">var MsgDiv = document.createElement("div");MsgDiv.id="divclMsg";document.body.appendChild(MsgDiv);</script>
+<style id="antiClickjack">body{display:none !important;}</style>
+<script type="text/javascript">
+if (self === top) 
+{
+    var antiClickjack = document.getElementById("antiClickjack");
+    antiClickjack.parentNode.removeChild(antiClickjack);
+} else 
+{
+       if(ToggleURL.match('/ShowReciept.aspx'))
+{
+    var antiClickjack = document.getElementById("antiClickjack");
+    antiClickjack.parentNode.removeChild(antiClickjack);
+}
+else{  top.location = self.location;}
+}
+
+$(document).ready(function() 
+{
+    if (!navigator.onLine)
+    {  
+        document.body.innerHTML = 'Loading...';
+        window.location = '/Portal/Error.aspx';
+    }
+
+    $(document).ready(function () { $("input").attr("autocomplete", "off"); }); 
+}); 
+
+
+var counse_disclaimer_msg = "The information contained in this document and/or receipt contains confidential information. Please do not share this information with anybody."
+</script>
+<!--[if lt IE 7]>
+<link href="/Portal/headers/MPOnlineHeader/ie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if lt IE 8]>
+<link href="/Portal/headers/MPOnlineHeader/ie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if lt IE 9]>
+<link href="/Portal/headers/MPOnlineHeader/ie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if lt IE 10]>
+<link href="/Portal/headers/MPOnlineHeader/ie10.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if lt IE 11]>
+<link href="/Portal/headers/MPOnlineHeader/ie10.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript">
+    function RedirectToPrev( RedirectToURL,QtGet,QtSET) {
+        //window.location = "/portal/services/onlinecounselling/counshomepage/Home.aspx";
+        var CMID = getParamValuesByName(QtGet);
+        RedirectToHome(CMID, RedirectToURL,QtSET);
+    }
+//-->
+
+
+function getParamValuesByName(querystring) {
+    name = querystring.replace(/[[]/, "\[").replace(/[]]/, "\]");
+    var regexS = "[\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.search);
+    if (results == null) {
+        return "";
+    }
+    else {
+        return decodeURIComponent(results[1].replace("/+/g", " "));
+    }
+}
+
+
+
+function RedirectToHome(QueryStringValue, URL, QtSET) {
+    window.location = URL + "?"+QtSET+"=" + QueryStringValue;
+}
+
+
+
+ 
+$(document).keydown(function (event) {
+if (event.keyCode == 123) {
+return false;
+}
+else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+return false;
+}
+});
+
+$(document).on("contextmenu", function (e) {
+e.preventDefault();
+});
+    
+</script>
+<link href="/portal/services/OnlineCounselling/CSS/Counselling_CSS.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/portal/headers/jquery/jquery.min.js"> </script>
+    <link href="https://fonts.googleapis.com/css?family=Hind|Roboto+Condensed" rel="stylesheet" />
+    <script type="text/javascript" language="javascript">
+        function goBack() {
+            //window.history.go(-1)
+            var url = document.getElementById("hdRef");
+            if (url) {
+                document.location = url.value;
+            }
+        }
+    </script>
+    <style type="text/css">
+        h3
+        {
+            color: red;
+            font-size: 25px;
+            border-bottom: none;
+            line-height: 50px;
+        }
+        .style1
+        {
+            height: 536px;
+        }
+    </style>
+</head>
+<body style="margin-top: 0px;">
+    <form name="frmIndex" method="post" action="./linkexpire.aspx?b" id="frmIndex" class="Ignore">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="Ajq2zJFamkKn90YCmKkrgigUgD4wRPvmXxIj0AW7SnclhcDpKL9uzPMTFWoNVf/FLRad2L5LUV3jT7LO7bt9XV6desEiZRGnpujWpL2s0ErOSGX20mm+CulT1rhmsbSvVqDquBfdGPU4/au7W4BQrfX8YNQ=" />
+</div>
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="ABD1E23D" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+</div>
+    <div id="outer">
+        
+        <table style="height: 500px" class="tableExpire">
+            <tr>
+                <td style="text-align: center;">
+                    <span id="lblexp" class="labelExpire">Unauthorized Access.</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    
+                    <input type="button" class="button" onclick="goBack();" value="BACK" style="display: none;" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <input type="hidden" name="hdRef" id="hdRef" />
+    </form>
+    <script type="text/javascript" language="javascript" src="/Portal/Headers/creditsfootermp.js"></script>
+</body>
+</html>

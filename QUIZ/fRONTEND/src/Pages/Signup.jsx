@@ -1,0 +1,162 @@
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { isEmail } from '../../Helpers/RegexMatcher';
+import {createAccount}  from '../../Redux/Slices/AuthSlice'
+import { toast } from 'react-toastify';
+
+
+const Signup = () => {
+  const dispatch =useDispatch();
+    const navigate=useNavigate();
+    const [signupData,setSignupData]=useState({
+        Name:"",
+        email:"",
+        password:"",
+        role:""
+    })
+    const [loading, setLoading] = useState(false);
+    function handleUserInput(e){
+        const {name,value}=e.target;
+        setSignupData({
+            ...signupData,
+            [name]:value
+        })
+    }
+
+    
+
+
+    const notifySuccess = (message, toastId) => {
+        toast.update(toastId, {
+            render: message,
+            type: "success", // Correct way to set the type
+            autoClose: 5000,
+            isLoading: false,
+        });
+    };
+
+    const notifyError = (message, toastId) => {
+        toast.update(toastId, {
+            render: message,
+            type: "error", // Correct way to set the type
+            autoClose: 5000,
+            isLoading: false,
+        });
+    };
+   
+
+    async function createNewAccount(e){
+        e.preventDefault();
+        console.log('dffk');
+        setLoading(true)
+        if(!signupData.role || !signupData.email || !signupData.Name || !signupData.password){
+            setLoading(false)
+              return toast.error('Please fill all the details', {
+                position: "top-right",
+            });
+        }
+        if(signupData.Name.length<5){
+            setLoading(false)
+            return toast.error('Name should be atleast of 5 characters', {
+              position: "top-right",
+          });
+        }
+        if(!isEmail(signupData.email)){
+            setLoading(false)
+             return toast.error('Invalid Email Id', {
+              position: "top-right",
+          });
+        }
+      
+      
+        if(signupData.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/)){
+            setLoading(false)
+            return toast.error('Password should contain at least 8 character 1 digit 1 lower case 1 uppercase', {
+              position: "top-right",
+          });
+        }
+
+        const response=await dispatch(createAccount(signupData))
+        // going o home page
+        console.log('respone- '+response.payload);
+        if(response?.payload?.success) {
+            notifySuccess("Registration Completed!");
+            navigate('/')
+        } else{
+            notifyError("Registration failed. Please try again.");
+        }
+
+
+        setSignupData({
+            Name:"",
+            email:"",
+            password:"",
+            // avatar:""
+            role:''
+        })
+
+
+
+    }
+    return (
+        <div className='flex items-center justify-center backdrop-brightness-90 absolute top-0 z-[-2] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]'>
+            <div className="flex items-center justify-center h-[100vh] "> 
+                <form noValidate onSubmit={createNewAccount} className="flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]">
+                    <h1 className="text-center text-2xl font-bold">
+                        Registration Page
+                    </h1>
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="fullName" className="font-semibold">Name</label>
+                        <input type="text"
+                            required
+                            name="Name"
+                            id="Name"
+                            placeholder="Enter your name..."
+                            className="bg-transparent px-2 py-1 border"
+                            onChange={handleUserInput}
+                            value={signupData.Name}
+                            />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="email" className="font-semibold">Email</label>
+                        <input type="email"
+                            required
+                            name="email"
+                            id="email"
+                            placeholder="Enter your Email"
+                            className="bg-transparent px-2 py-1 border"
+                            onChange={handleUserInput}
+                            value={signupData.email}
+                            />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="password" className="font-semibold">Password</label>
+                        <input type="password"
+                            required
+                            name="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            className="bg-transparent px-2 py-1 border"
+                            onChange={handleUserInput}
+                            value={signupData.password}
+                            />
+                    </div>
+                    {/* ype-sumbmit page will get refresh */}
+
+                    <select id="options" style={{ backgroundColor: 'transparent' }} className="bg-transparent mt-1 block w-full border text-3 md:h-[10%] lg:h-[10%]  max-sm:h-[20%] border-gray-300 bg-white p-3 rounded-xl shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name='role' value={signupData.role} onChange={handleUserInput}>
+                        <option value="" disabled selected className='bg-re-300 text-xl itali text-rose-500 focus:bg-red-400'>Role</option>
+                        <option value="Teacher" className='bg-re-300 text-xl itali text-rose-500 focus:bg-red-400'>Teacher</option>
+                        <option value="Student" className='bg-re-300 text-xl itali text-rose-500 hover:bg-red-400'>Student</option>
+                    </select>
+                    <button type="submit" className="bg-yellow-500 mt-2 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded-xl py-2 font-semibold text-lg cursor-pointer">
+                       { loading ? 'Creating Account....':'Create Account'}
+                    </button>
+                    <p className="text-center">Already have an Account ? <Link to='/login' className="link text-accent cursor-pointer">Login</Link></p>
+                </form>
+
+            </div>
+         </div>
+)}
+
+export default Signup

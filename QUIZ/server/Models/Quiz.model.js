@@ -8,6 +8,10 @@ const QuizSchema =  new Schema({
     },
         Quiz:[{
             // _id: uuidv4(),
+            Subject:{
+                type:'String',
+                // required:[true,'Subject is Required']
+            },
             _id:{
                 type:'String'
             },

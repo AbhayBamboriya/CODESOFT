@@ -5,23 +5,26 @@ import {v4 as uuidv4} from 'uuid'
 const QuizPost  = async(req,res,next)=>{
     try {
         const {userId} =req.user
-        const { Questions } = req.body;
-        if (!userId || !Questions) {
-            return res.status(400).json({ message: 'UserId and quiz data are required' });
+        const { Questions,Subject } = req.body;
+        if (!userId || !Questions || !Subject) {
+            return res.status(400).json({ message: 'UserId ,Questions,Subject are required' });
         }
 
         // const exist =await Quiz.findById
         const formattedQuestions = Questions.map(question => ({
+            // Subject:Subject,
             Question: question.Question,
             Options: question.Options,
             CorrectAns: question.CorrectAns,
             Marks: question.Marks
         }));
+        console.log(formattedQuestions);
             const newQuiz = new Quiz({
                 userId: userId,
                 Quiz: [
                     {
                         _id: uuidv4(),
+                        Subject:Subject,
                         Questions: formattedQuestions
                     }
                 ]
@@ -39,7 +42,14 @@ const AddQuiz=async(req,res,next)=>{
         // these is for appending new quiz with the existing quiz
         const {userId}=req.user
         const {QuizId}=req.params
-        const { Questions } = req.body; 
+        const { Questions,Subject } = req.body; 
+        if(!userId){
+            new AppError('Please Login to Post the quiz',400)
+        }
+
+        if(!Questions || !Subject){
+            new AppError('Question and Subject are required',400)
+        }
         const formattedQuestions = Questions.map(question => ({
             // _id: uuidv4(),
             Question: question.Question,
@@ -51,9 +61,12 @@ const AddQuiz=async(req,res,next)=>{
         const exist=await Quiz.findOne({userId})
         console.log(formattedQuestions);
         // exist.Quiz._id=uuidv4()
-        exist.Quiz.push({Questions:formattedQuestions,_id:uuidv4()})
+        exist.Quiz.push({Questions:formattedQuestions,_id:uuidv4(),Subject})
         await exist.save()
-            res.status(201).send('finished')
+        res.status(200).json({
+            success:true,
+            message:'Quiz Added successfully'
+        })
 
     }
 
@@ -110,7 +123,6 @@ const formatting=async(req,res,next)=>{
         const {userId}=req.user
         const { Question } = req.body;
         const { QuizId }=req.params
-        console.log('issss',userId,QuizId,Question);
         const formattedQuestions = Question.map(question => ({
             QuestionId:question.QuestionId,
             Question: question.Question,
@@ -119,37 +131,27 @@ const formatting=async(req,res,next)=>{
             Marks: question.Marks
         }));
 
-        const exist=await Quiz.findOne({userId})
-        console.log('formatted',formattedQuestions);
-        for(let j=0;j<exist.Quiz.length;j++){
-            if(exist.Quiz[j]._id==QuizId){
-                for(let t=0;t<exist.Quiz[j].Questions.length;t++){
-                    for(let g=0;g<formattedQuestions.length;g++){
-                        console.log('iddfdjdf',formattedQuestions[g].QuestionId);
-                        if (exist.Quiz[j]?.Questions[t]?._id == formattedQuestions[g].QuestionId) {
-                            // console.log('lhohhohoh',formattedQuestions[0]?.Question);
-    
-    
-    
-                            if(formattedQuestions[g].Question)exist.Quiz[j].Questions[t].Question = formattedQuestions[g]?.Question;
-                            if(formattedQuestions[g]?.Options)exist.Quiz[j].Questions[t].Options = formattedQuestions[g]?.Options;
-                            if(formattedQuestions[g]?.Marks)exist.Quiz[j].Questions[t].Marks = formattedQuestions[g]?.Marks;
-                            if(formattedQuestions[g]?.CorrectAns)exist.Quiz[j].Questions[t].CorrectAns = formattedQuestions[g]?.CorrectAns;
-                            break;
-                        }
-                    }
-                    
-                }
-                break
-            }
+        const quizDocument=await Quiz.findOne({userId})
+        // console.log('formatted',formattedQuestions);
 
+        const quiz = quizDocument.Quiz.find(quiz => quiz._id == QuizId);
+        for(let i=0;i<formattedQuestions.length;i++){
+            const question=quiz.Questions.find(q=>q._id==formattedQuestions[i].QuestionId)
+            console.log(
+                'before changes',question
+            );
+            if(formattedQuestions[i].Question) question.Question = formattedQuestions[i]?.Question;
+            if(formattedQuestions[i].Options) question.Options = formattedQuestions[i]?.Options;
+            if(formattedQuestions[i].Marks) question.Marks = formattedQuestions[i]?.Marks;
+            if(formattedQuestions[i].CorrectAns)  question.CorrectAns = formattedQuestions[i]?.CorrectAns;
+
+            console.log('after cahnges  question is',question);
         }
-       
-        // exist.Quiz[1]
-        await exist.save()
+
+        // await quizDocument.save()
         res.status(201).json({
             success:true,
-            message:"User registered successfully",
+            message:"Question formatted successfully",
             // exist
         })
     }
@@ -159,57 +161,101 @@ const formatting=async(req,res,next)=>{
 
 }
 
-const deleteQuestion=async(req,res,next)=>{
-    const {userId}=req.user
-    const { QuestionId } = req.body;
-    const { QuizId }=req.params
-    const exist=await Quiz.findOne({userId})
-        // console.log('formatted',formattedQuestions);
-        let formattedQuestions=[]
-        for(let j=0;j<exist.Quiz.length;j++){
-            if(exist.Quiz[j]._id==QuizId){
-                for(let t=0;t<exist.Quiz[j].Questions.length;t++){
-                    // for(let g=0;g<formattedQuestions.length;g++){
-                        // console.log('iddfdjdf',formattedQuestions[g].QuestionId);
-                        if (exist.Quiz[j]?.Questions[t]?._id ==QuestionId) {
-                            // console.log(exist.Quiz[j]?.Questions[t]);
-                            // exist.Quiz[j]?.Questions.push(exist.Quiz[j]?.Questions[t])
-                            // formattedQuestions.push(exist.Quiz[j]?.Questions[t])
-                            // exist.Quiz[i].Questions.push({Question:formattedQuestions[j].Question,Marks:formattedQuestions[j].Marks,CorrectAns:formattedQuestions[j].CorrectAns,Options:formattedQuestions[j].Options})
-                            console.log('acksdjffdfjfdhf',exist.Quiz[j]?.Questions[t]);
-                            await exist.Quiz[j]?.Questions[t].remove()
-                        }
-                        
-                    // }
-    
-                }
-                break
-            }
 
+const deleteQuestion = async (req, res, next) => {
+    try {
+        const { userId } = req.user;
+        const { QuestionId } = req.body;
+        const { QuizId } = req.params;
+
+        // Find the quiz for the user
+        const quizDocument = await Quiz.findOne({ userId });
+
+        if (!quizDocument) {
+            return res.status(404).json({
+                success: false,
+                message: "Quiz not found"
+            });
         }
-        // for(let i=0;i<exist.Quiz.length;i++){
-  
-        //         for(let j=0;j<formattedQuestions.length;j++){
-        //             exist.Quiz[i].Questions.push({Question:formattedQuestions[j].Question,Marks:formattedQuestions[j].Marks,CorrectAns:formattedQuestions[j].CorrectAns,Options:formattedQuestions[j].Options})
-        //         }
-               
-    
-            
-        // }
-    
-      
-        // exist.Quiz[1]
-        // console.log('for',formattedQuestions);
-        await exist.save()
-        res.status(201).json({
-            success:true,
-            message:"Question Deleted successfully",
-            // exist
-        })
 
+        // Find the quiz within the quizzes array
+        const quiz = quizDocument.Quiz.find(quiz => quiz._id == QuizId);
+
+        if (!quiz) {
+            return res.status(404).json({
+                success: false,
+                message: "Quiz not found"
+            });
+        }
+
+        // Find the index of the question to be removed
+        const questionIndex = quiz.Questions.findIndex(question => question._id == QuestionId);
+
+        if (questionIndex === -1) {
+            return res.status(404).json({
+                success: false,
+                message: "Question not found"
+            });
+        }
+
+        // Remove the question
+        quiz.Questions.splice(questionIndex, 1);
+
+        // Save the updated document
+        await quizDocument.save();
+
+        res.status(201).json({
+            success: true,
+            message: "Question deleted successfully"
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const deleteQuiz=async (req,res,next)=>{
+   try{
+        const { userId } = req.user;
+        const { QuizId } = req.params;
+        if(!userId){
+            return next(new AppError('Not Authorised to delete the quiz',400))
+        }
+        if(!QuizId){
+            return next(new AppError('Please Provide the quiz id',400))
+        }
+
+        const quizDocument = await Quiz.findOne({ userId });
+        // console.log('qd',quizDocument);
+        // const quiz=quizDocument.Quiz.find
+        const quizIndex = quizDocument.Quiz.findIndex(quiz => quiz._id == QuizId);
+        const quiz = quizDocument.Quiz.find(quiz => quiz._id == QuizId);
+        console.log('quiz is',quiz);
+        console.log('idx',quizIndex);
+        if (quizIndex === -1) {
+            return res.status(404).json({
+                success: false,
+                message: "Quiz not found"
+            });
+        }
+        console.log("Before remoival",quizDocument.Quiz[quizIndex]);
+        quizDocument.Quiz.splice(quizIndex, 1);
+
+        console.log('quiz Document',quizDocument);
+        console.log("Afeter remoival",quizDocument.Quiz[quizIndex]);
+        await quizDocument.save({Subject:''})
+        res.status(201).json({
+            success: true,
+            message: "Quiz deleted successfully"
+        });
+   }
+
+   catch(e){
+        return next(new AppError(e.message,500))
+   }
 }
+
 export{
-    QuizPost,
+    QuizPost,deleteQuiz,
     AddQuestion,
     deleteQuestion,
     formatting,
