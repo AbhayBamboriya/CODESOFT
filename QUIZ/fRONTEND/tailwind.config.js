@@ -11,6 +11,8 @@ export default {
         cursive:[ "Cedarville Cursive", "cursive"]
       },
     },
+    
+    
   },
   plugins: [],
 }

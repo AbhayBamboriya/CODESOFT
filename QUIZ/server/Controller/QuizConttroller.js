@@ -5,14 +5,16 @@ import {v4 as uuidv4} from 'uuid'
 const QuizPost  = async(req,res,next)=>{
     try {
         const {userId} =req.user
-        const { Questions,Subject } = req.body;
-        if (!userId || !Questions || !Subject) {
+        // console.log('information',req.user);
+        const { Questions,Subject,CreatedBy } = req.body;
+        if (!userId || !CreatedBy || !Questions || !Subject) {
             return res.status(400).json({ message: 'UserId ,Questions,Subject are required' });
         }
 
         // const exist =await Quiz.findById
         const formattedQuestions = Questions.map(question => ({
             // Subject:Subject,
+            // CreatedBy:question.CreatedBy,
             Question: question.Question,
             Options: question.Options,
             CorrectAns: question.CorrectAns,
@@ -25,7 +27,8 @@ const QuizPost  = async(req,res,next)=>{
                     {
                         _id: uuidv4(),
                         Subject:Subject,
-                        Questions: formattedQuestions
+                        Questions: formattedQuestions,
+                        CreatedBy:CreatedBy
                     }
                 ]
             });
@@ -36,17 +39,46 @@ const QuizPost  = async(req,res,next)=>{
     }
 }
 
+const Question=async(req,res,next)=>{
+   try{
+    const {Quizid,userId}=req.params
+    // const {}=req.body
+    console.log('let',Quizid,userId);
+    if(!userId || !Quizid){
+        new AppError('User Id and QuizId is not defined',400)
+    }
+    const exist=await Quiz.findOne({userId})
+    console.log('exist',exist);
 
+    for(let i=0;i<exist.Quiz.length;i++){
+        if(exist.Quiz[i]?._id==Quizid){
+            console.log('Questions are',exist.Quiz[i]?.Questions);
+            res.status(200).json({
+                success:true,
+                message:'Quiz Added successfully',
+                Question:exist.Quiz[i]?.Questions
+            })
+        }
+    }
+    
+
+   }
+   catch(e){
+        return next(new AppError(e.message,400))
+    }
+
+
+}
 const AddQuiz=async(req,res,next)=>{
     try{
         // these is for appending new quiz with the existing quiz
         const {userId}=req.user
         const {QuizId}=req.params
-        const { Questions,Subject } = req.body; 
+        const { Questions,CreatedBy,Subject } = req.body; 
         if(!userId){
             new AppError('Please Login to Post the quiz',400)
         }
-
+        console.log(Questions,CreatedBy,Subject);
         if(!Questions || !Subject){
             new AppError('Question and Subject are required',400)
         }
@@ -61,7 +93,7 @@ const AddQuiz=async(req,res,next)=>{
         const exist=await Quiz.findOne({userId})
         console.log(formattedQuestions);
         // exist.Quiz._id=uuidv4()
-        exist.Quiz.push({Questions:formattedQuestions,_id:uuidv4(),Subject})
+        exist.Quiz.push({Questions:formattedQuestions,_id:uuidv4(),Subject:Subject,CreatedBy:CreatedBy})
         await exist.save()
         res.status(200).json({
             success:true,
@@ -161,7 +193,21 @@ const formatting=async(req,res,next)=>{
 
 }
 
-
+const AllQuiz=async(req,res,next)=>{
+    try{
+        // const quizDocument=await Qui
+        const quiz=await Quiz.find({})
+        console.log(quiz);
+        return res.status(201).json({
+            success: true,
+            message: "All Quiz",
+            quiz
+        });
+    }
+    catch(e){
+        return next(new AppError(e.message,400))
+    }
+}
 const deleteQuestion = async (req, res, next) => {
     try {
         const { userId } = req.user;
@@ -259,5 +305,7 @@ export{
     AddQuestion,
     deleteQuestion,
     formatting,
-    AddQuiz
+    AddQuiz,
+    AllQuiz,
+    Question
 }

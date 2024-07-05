@@ -40,9 +40,10 @@ const Login = () => {
             const response = await dispatch(login(loginData));
             console.log('checkicvdfiddif',response);
             if (response?.payload?.success) {
-                navigate('/');
+                navigate('/mainPage');
                 toast.success("Login successful!", {
                     position: "top-right",
+                    // autoClose:3000
                 });
             } 
         } catch (error) {
@@ -96,8 +97,15 @@ const Login = () => {
 
                         <ToastContainer />
 
-                        <button type="submit" className="bg-yellow-500 mt-2 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded-xl py-2 font-semibold text-lg cursor-pointer">
-                            {loading ? 'Logging in...' : 'Login'}
+                        <button type="submit" 
+                        className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-50"
+                        // className="bg-yellow-500 mt-2 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded-xl py-2 font-semibold text-lg cursor-pointer"
+                        >
+                         
+                            <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
+                                    <span className='inline-flex w-full h-full cursor-pointer items-center justify-center rounded-full bg-gray-950 px-8 py-1 text-sm font-medium text-gray-50 backdrop-blur-3xl'>
+                                    {loading ? 'Logging in...' : 'Login'}
+                            </span>
                         </button>
 
                         <p className="text-center">Don't have an Account? <Link to='/signup' className="link text-accent cursor-pointer">Signup</Link></p>
