@@ -10,12 +10,13 @@ const initialState={
 
 }  
 
+
 export const StartQuiz=createAsyncThunk('/:id/:id',async(data)=>{
     try{
         console.log('data in slice',data.QuizId);
         console.log('data',data);
         const res=await quizInstance.get(`/${data.QuizId}/${data.userId}`)
-        console.log('res from faiz');
+        console.log('res from faiz',res);
         return (await res).data
     }
     catch(e){
@@ -25,6 +26,76 @@ export const StartQuiz=createAsyncThunk('/:id/:id',async(data)=>{
         });
     }
     
+})
+
+
+export const DeleteQuiz=createAsyncThunk('delete',async (data)=>{
+    try{
+        console.log('data for delete quiz',data);
+        const res=await quizInstance.delete(`/deleteQuiz/${data}`)
+        console.log('res is frno backend dleete',res);
+        return (await res).data
+    }
+    catch(e){
+        // toast.error()
+        toast.error(e?.response?.data?.message, 
+            {
+            position: "top-right",
+        }
+    );}
+
+})
+export const PostQuiz=createAsyncThunk('/createQuiz',async(data)=>{
+    try{
+        console.log('data in slice',data.QuizId);
+        console.log('data',data);
+        const res=await quizInstance.post(`/post`,data)
+        console.log('res from faiz',res);
+        return (await res).data
+    }
+    catch(e){
+        // toast.error()
+        console.log('errorin postQuiz',e);
+        toast.error(e?.response?.data?.message);
+    }
+})
+
+export const AppendQuiz=createAsyncThunk('/append',async(data)=>{
+    try{
+        const res=await quizInstance.post('/add',data)
+        return (await res).data
+    }
+    catch(e){
+        // toast.error()
+        // console.log('errorin postQuiz',e);
+        toast.error(e?.response?.data?.message);
+    }
+})
+
+export const Check=createAsyncThunk('/check',async()=>{
+    try{
+        const res=await quizInstance.get('/check')
+        return (await res).data
+    }
+    catch(e){
+        // toast.error()
+        // console.log('errorin postQuiz',e);
+        toast.error(e?.response?.data?.message);
+    }
+
+})
+export const My_Quiz=createAsyncThunk('/myQuiz',async()=>{
+    try{
+        const res=await quizInstance.get('/myQuiz')
+        console.log('res',await res);
+        return (await res).data
+    }
+    catch(e){
+        // toast.error()
+        toast.error(e?.response?.data?.message, {
+            position: "top-right",
+        });
+    }
 })
 
 export const AllQuiz=createAsyncThunk('/mainpage',async()=>{

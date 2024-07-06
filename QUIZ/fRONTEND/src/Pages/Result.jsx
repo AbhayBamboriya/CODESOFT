@@ -5,12 +5,12 @@ import { StartQuiz } from '../../Redux/Slices/QuizSlice';
 import { useDispatch } from 'react-redux';
 
 const Result = () => {
-    const { marks, totalMarks,option } = useParams();
+    const { marks, totalMarks,check } = useParams();
     const dispatch = useDispatch();
     const [question, setQuestion] = useState([]);
     const [loading, setLoading] = useState(true);
     const { userId, QuizId } = useParams();
-    console.log('option are',(option.length));
+    console.log('value of check',check);
     useEffect(() => {
         const fetchQuiz = async () => {
             try {

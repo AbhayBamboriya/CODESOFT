@@ -86,11 +86,6 @@ const handleInputChangePerks = (index, event) => {
 
 async function Post(e){
   e.preventDefault()
-  // console.log('reac');
-  
-  // const res=
-
-  // console.log('brfore changes',postData);
   console.log('id before set',id);
   setPostData((prevPostData) => ({
     ...prevPostData,
@@ -113,13 +108,7 @@ async function Post(e){
 
   if(res?.payload?.success){
     navigate('/')
-  }
-  // setPostData('')
-  // setPerks('')
-  // setSkills('')
-  // console.log('after changes',postData);
-  // set
-  
+  }  
 }
 
 useEffect(() => {

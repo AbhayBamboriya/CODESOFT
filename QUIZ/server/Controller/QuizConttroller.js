@@ -4,8 +4,14 @@ import AppError from "../utils/error.js";
 import {v4 as uuidv4} from 'uuid'
 const QuizPost  = async(req,res,next)=>{
     try {
-        const {userId} =req.user
-        // console.log('information',req.user);
+        const {userId,role} =req.user
+        console.log('information',role);
+
+        if(role==='Student') {
+            console.log('in studennt');
+            return next(new AppError('Not Allowed to post a Quiz',400))
+        }
+            // return next(new AppError('Email and Password does not match',400))
         const { Questions,Subject,CreatedBy } = req.body;
         if (!userId || !CreatedBy || !Questions || !Subject) {
             return res.status(400).json({ message: 'UserId ,Questions,Subject are required' });
@@ -33,24 +39,52 @@ const QuizPost  = async(req,res,next)=>{
                 ]
             });
             await newQuiz.save();
-            res.status(201).json({message:'Created Quiz Successfully',Quiz:newQuiz}); 
+            res.status(201).json({
+                message:'Quiz Created Successfully',
+                Quiz:newQuiz,
+                success:true
+            }); 
     } catch (error) {
         res.status(500).json({ message: error.message, error });
     }
 }
 
+const check=async(req,res,next)=>{
+    try{
+        const {userId}=req.user
+        const exist=await Quiz.findOne({userId})
+        console.log('exist',exist,exist.Quiz.length);
+        if(exist){
+            res.status(201).json({
+                success:true
+            }); 
+        }
+        else{
+            res.status(201).json({
+               
+                success:false
+            });
+        }
+
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message, error });
+    }
+}
 const Question=async(req,res,next)=>{
    try{
     const {Quizid,userId}=req.params
     // const {}=req.body
     console.log('let',Quizid,userId);
     if(!userId || !Quizid){
-        new AppError('User Id and QuizId is not defined',400)
+       
+        return next(new AppError('User Id and QuizId is not defined',400))
     }
     const exist=await Quiz.findOne({userId})
     console.log('exist',exist);
 
     for(let i=0;i<exist.Quiz.length;i++){
+        console.log(exist.Quiz[i]?._id,Quizid);
         if(exist.Quiz[i]?._id==Quizid){
             console.log('Questions are',exist.Quiz[i]?.Questions);
             res.status(200).json({
@@ -72,8 +106,9 @@ const Question=async(req,res,next)=>{
 const AddQuiz=async(req,res,next)=>{
     try{
         // these is for appending new quiz with the existing quiz
-        const {userId}=req.user
-        const {QuizId}=req.params
+        const {userId,role}=req.user
+        // const {QuizId}=req.params
+        if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
         const { Questions,CreatedBy,Subject } = req.body; 
         if(!userId){
             new AppError('Please Login to Post the quiz',400)
@@ -111,7 +146,8 @@ const AddQuiz=async(req,res,next)=>{
 
 const AddQuestion=async(req,res,next)=>{
     try{
-        const {userId}=req.user
+        const {userId,role}=req.user
+        if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
         const {QuizId}=req.params
         const { Questions } = req.body;
     const exist=await Quiz.findOne({userId})
@@ -152,7 +188,8 @@ const AddQuestion=async(req,res,next)=>{
 const formatting=async(req,res,next)=>{
     try{
         // const {QuestionId}=req.body
-        const {userId}=req.user
+        const {userId,role}=req.user
+        if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
         const { Question } = req.body;
         const { QuizId }=req.params
         const formattedQuestions = Question.map(question => ({
@@ -193,6 +230,26 @@ const formatting=async(req,res,next)=>{
 
 }
 
+const MyQuiz=async(req,res,next)=>{
+    try{
+        const {userId,role}=req.user
+        if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
+        const quizDocument=await Quiz.findOne({userId})
+        console.log('document',quizDocument);
+        res.status(201).json({
+            success:true,
+            message:"My Quiz",
+            // exist
+            Quiz:quizDocument.Quiz
+        })
+
+
+    }
+    catch(e){
+        return next(new AppError(e.message,400))
+    }
+}
+
 const AllQuiz=async(req,res,next)=>{
     try{
         // const quizDocument=await Qui
@@ -210,7 +267,8 @@ const AllQuiz=async(req,res,next)=>{
 }
 const deleteQuestion = async (req, res, next) => {
     try {
-        const { userId } = req.user;
+        const { userId ,role} = req.user;
+        if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
         const { QuestionId } = req.body;
         const { QuizId } = req.params;
 
@@ -261,14 +319,18 @@ const deleteQuestion = async (req, res, next) => {
 
 const deleteQuiz=async (req,res,next)=>{
    try{
-        const { userId } = req.user;
+        const { userId,role } = req.user;
         const { QuizId } = req.params;
+        console.log(userId,role,QuizId);
+        if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
+        // console.log(req);
         if(!userId){
             return next(new AppError('Not Authorised to delete the quiz',400))
         }
         if(!QuizId){
             return next(new AppError('Please Provide the quiz id',400))
         }
+        console.log(QuizId,userId);
 
         const quizDocument = await Quiz.findOne({ userId });
         // console.log('qd',quizDocument);
@@ -307,5 +369,7 @@ export{
     formatting,
     AddQuiz,
     AllQuiz,
-    Question
+    Question,
+    MyQuiz,
+    check
 }

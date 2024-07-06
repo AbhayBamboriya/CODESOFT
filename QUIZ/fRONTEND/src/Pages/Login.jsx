@@ -40,7 +40,7 @@ const Login = () => {
             const response = await dispatch(login(loginData));
             console.log('checkicvdfiddif',response);
             if (response?.payload?.success) {
-                navigate('/mainPage');
+                navigate('/mainpage');
                 toast.success("Login successful!", {
                     position: "top-right",
                     // autoClose:3000
