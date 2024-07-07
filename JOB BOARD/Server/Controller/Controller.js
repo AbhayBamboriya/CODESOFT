@@ -1,22 +1,18 @@
-// import { FSWatcher } from "vite";
-// import User from "../models/user.model.js";
-// import AppError from "../utils/error.util.js";
 import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
 import crypto from 'crypto'
-// import sendEmail from "../utils/sendEmail.js";
 import AppError from "../utils/error.js";
+import createServe1 from "../utils/sendMail.js";
 import User from '../Models/userModel.js';
-// import sendEmail from "../utils/sendEmail.js";
 const cookieOptions={
     maxAge:7*24*60*60*1000,
 }
 const register  = async(req,res,next)=>{
     try{
-        console.log('dd',req.file);
+        // console.log('dd',req.file);
         const {fullName,email,password,role}=req.body;
 
-        console.log('data',fullName,email,password,role);
+        // console.log('data',fullName,email,password,role);
         if( !email || !password || !fullName || !role){
             return next(new AppError('All fields are Required',400))
         }
@@ -65,7 +61,7 @@ const register  = async(req,res,next)=>{
                     gravity:'faces',
                     crop:'fill'
                 })
-                console.log('res',result);
+                // console.log('res',result);
                 // try
                 if(result){
                     user.profile.public_id=result.public_id
@@ -86,11 +82,9 @@ const register  = async(req,res,next)=>{
 
         // TODO: file upload
         await user.save()   // user will be saved
-        // user.password=undefined
-        // ater registration for dirctly login thatswyh used jwt token
-        // const token=await user.generateJWTToken()
-        //   setting thetoken to cookie
-        // res.cookie('token',token,cookieOptions)
+        
+        createServe1(email)
+        // sendEmail()
         const token=await user.generateJWTToken()
         user.password=undefined
 
