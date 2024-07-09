@@ -1,92 +1,86 @@
-import React, { useEffect, useState } from 'react'
-// import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import Display from './Display';
 import Search from '../Compnents/Search';
 import { FaFilter } from "react-icons/fa6";
-import { AllInternship, AllJobs, filteredData } from '../Redux/Slices/JobInternSlice';
-import { useLocation } from 'react-router-dom';
+import { AllInternship, AllJobs } from '../Redux/Slices/JobInternSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import Navbar from './Navbar';
+
 const Internship = () => {
-    const dispatch=useDispatch()
-    const [searchLocation,setsearchLocation]=useState('')
-    const [Domain,setDomain]=useState('')
-    const location=useLocation()
-    // const [internship, setInternship] = useState([]);
-    // const [job, setJob] = useState([]);
-    // const {job,internship}=useSelector(state=>state?.services)
-    const {internship,job}=useSelector((state)=>state.services)
-    console.log('ab',internship);
-    useEffect(()=>{
-      for(let i=0;i<400;i++){
-        console.log('abv');
-      }
-      dispatch(AllInternship())
-      dispatch(AllJobs())
-     
-  },[])
-  return (
-    
-    <div className='flex flex-co justify-center items-enter h-[100vh]'>
+    const dispatch = useDispatch();
+    const [searchLocation, setSearchLocation] = useState('');
+    const [Domain, setDomain] = useState('');
+    const navigate=useNavigate()
+    const location = useLocation();
+    const { internship, job } = useSelector((state) => state.services);
+    console.log('internships are',internship);
+    useEffect(() => {
+        dispatch(AllInternship());
+        dispatch(AllJobs());
+    }, [dispatch]);
 
-          <div className='bg-gray-100 h-[100vh] w-1/4 flex justify-center items-center p-[2%] flex-col gap-2'>
-                  <h1 className='italic text-2xl flex items-center gap-[2%]'><FaFilter className='text-sky-800'/>Filters</h1>
-                <Search updateSearchTerm={setDomain} placeholder='Enter Domain' id="location"/>
-                <Search updateSearchTerm={setsearchLocation} placeholder='Enter Location' id="domain"/>
-          </div>
-          <div className='bg-gray-100 w-[50%] t-[4%] flex justify-cener overflow-y-scroll items-ceter flex-col gap-[20px] h-[100vh]'>
-              <h1 className='  font-bold text-5xl text-center bg- ed-400 mt-[3%] w-full '>{location.pathname=="/Internship"?"Internship":"Job"}</h1>
-              {console.log('internship in return',internship)}
-              {
+    const filteredInternships = Array.isArray(internship) && internship && internship.filter((i) => {
+        if (searchLocation && !i.venue.toLowerCase().includes(searchLocation.toLowerCase())) {
+            return false;
+        }
+        if (Domain && !i.title.toLowerCase().includes(Domain.toLowerCase())) {
+            return false;
+        }
+        return true;
+    });
 
-              location.pathname=="/Internship" ? internship.filter((i)=>{
-                    if(searchLocation){
-                      return searchLocation.toLowerCase() == '' ? i : i.venue.includes(searchLocation) 
-                    }
+    const filteredJobs = Array.isArray(job) && job.filter((i) => {
+        if (searchLocation && !i.venue.toLowerCase().includes(searchLocation.toLowerCase())) {
+            return false;
+        }
+        if (Domain && !i.title.toLowerCase().includes(Domain.toLowerCase())) {
+            return false;
+        }
+        return true;
+    });
 
-                    else if(Domain){
-                      return Domain.toLowerCase() == '' ? i : i.title.includes(Domain) 
-                    }
+    return (
+        <div className='flex flex-col md:flex-row justify-center items-start min-h-screen h-[100vh] bg-gray-500 text-white'>
+        
+            <div className='bg-gray-800 w-full md:w-1/4 p-4 md:p-8 flex flex-col items-center gap-4 h-full justify-center'>
+                <h1 className='italic text-2xl flex items-center gap-2'><FaFilter className='text-sky-500' />Filters</h1>
+                <Search updateSearchTerm={setDomain} placeholder='Enter Domain' id="location" />
+                <Search updateSearchTerm={setSearchLocation} placeholder='Enter Location' id="domain" />
+                <button className='hover:text-emerald-500' onClick={()=>navigate(-1)}>Go Back</button>
 
-
-                    else if(!searchLocation && !Domain){
-                      return i
-                    }
-
-                    else{
-                      return (Domain.toLowerCase() == '' && searchLocation.toLowerCase()=='') ? i : i.title.includes(Domain) && i.venue.includes(searchLocation) 
-                    }
-                  }).map((i)=>{
-                                  return <Display company={i.company} title={i.title} type={i.type} venue={i.venue} stipend={i.stipend} key={i._id} id={i._id}/>
-                              })
-              : 
-
-              job.filter((i)=>{
-    
-                if(searchLocation){
-                  return searchLocation.toLowerCase() == '' ? i : i.venue.includes(searchLocation) 
+            </div>
+            <div className='bg-gray-800  h-screen w-full md:w-3/4 p-4 md:p-8 flex bg-blac flex-col items-center gap-6 overflow-y-scroll'>
+                <h1 className='font-bold text-3xl md:text-5xl text-center'>
+                    {location.pathname === "/Internship" ? "Internship" : "Job"}
+                </h1>
+                {location.pathname === "/Internship" ?
+                    Array.isArray(filteredInternships) &&  filteredInternships.map((i) => (
+                        <Display
+                            company={i.company}
+                            title={i.title}
+                            type={i.type}
+                            venue={i.venue}
+                            stipend={i.stipend}
+                            key={i._id}
+                            id={i._id}
+                        />
+                    ))
+                    :
+                    Array.isArray(filteredJobs) &&  filteredJobs.map((i) => (
+                        <Display
+                            company={i.company}
+                            title={i.title}
+                            type={i.type}
+                            venue={i.venue}
+                            stipend={i.stipend}
+                            key={i._id}
+                            id={i._id}
+                        />
+                    ))
                 }
-              
-                else if(Domain){
-                  return Domain.toLowerCase() == '' ? i : i.title.includes(Domain) 
-                }
-              
-              
-                else if(!searchLocation && !Domain){
-                  return i
-                }
-              
-                else{
-                  return (Domain.toLowerCase() == '' && searchLocation.toLowerCase()=='') ? i : i.title.includes(Domain) && i.venue.includes(searchLocation) 
-                }
-              }).map((i)=>{
-                              return <Display company={i.company} title={i.title} type={i.type} venue={i.venue} stipend={i.stipend} key={i._id} id={i._id}/>
-                          })
-              
-              }
-          </div>
-    </div>
-  )
+            </div>
+        </div>
+    )
 }
 
-export default Internship
+export default Internship;

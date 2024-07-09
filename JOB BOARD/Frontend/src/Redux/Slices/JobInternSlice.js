@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const initialState={
     filteredData:[],
     AllJobs:(localStorage.getItem('job')) || '',
-    // internship:localStorage.ge/tItem('internship') || ''
+    internship:(localStorage.getItem('internship')) || ''
 }  
 
 export const AllInternship=createAsyncThunk('/auth/intern',async() =>{

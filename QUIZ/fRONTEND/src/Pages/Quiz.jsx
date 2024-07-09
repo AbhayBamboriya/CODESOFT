@@ -90,7 +90,7 @@ const Quiz = ({createdBy,subject,id,userId,questions,check}) => {
           <h2 className='text-white'>Subject : {subject}</h2>
           <h2 className='text-white'>Total Marks : {marks}</h2>
           <Link to={`/quiz/${userId}/${id}/${check}`}>
-          <button
+           {((location.pathname=='/mypage' && localStorage.getItem('role')=='Student' ) || location.pathname=='/myQuiz' ) && <button
                       className="relative  inline-flex h-10 overflow-hidden rounded-full p-[1px] hover:outline-none hover:ring-2 hover:ring-gray-400 hover:ring-offset-2 hover:ring-offset-gray-50"
                       // className="bg-yellow-500 mt-2 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded-xl py-2 font-semibold text-lg cursor-pointer"
                       >
@@ -101,8 +101,8 @@ const Quiz = ({createdBy,subject,id,userId,questions,check}) => {
                                   {location.pathname=='/myQuiz' ? 'See Info' :"Let's Start"}
                                   
                           </span>
-                      </button>
-            
+                      </button>}
+
          
           </Link>
           {

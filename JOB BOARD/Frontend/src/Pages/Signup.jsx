@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { isEmail } from '../Helpers/regexMatcher';
 import { createAccount, login } from '../Redux/Slices/auth';
@@ -133,18 +133,19 @@ function Signup() {
     }
   return (  
         <div className='w-[100%] p-[10%] h-[100vh] bg-back flex 10%] lg:flex-row max-md:flex-col  items-center justify-center gap-[20%] max-sm:bg-re-300 max-sm:flex-col max-lg:gap-[30%] max-lg:flex-col no-doc-scroll overscroll-scroll snap-none bg-blck sm:animation-none'>
-            <motion.div variants={variants} initial="initial" whileInView="animateWitnDelay" className='md:w-[100%]'>
+            <motion.div variants={variants} initial="initial" whileInView="animateWitnDelay" className='md:w-[100%] flex flex-col items-center gap-10'>
                 <h1 className='text-7xl flex text-center text-white lg:font-bold md:font-xl max-sm:text-4xl max-md:text-6xl min-lg:leading-2  max-xl:font-light'>Don't miss out! Become a member now.</h1>
+                <h2 className='text-xl'>Already Have an Account. <span className='hover:underline cursor-pointer hover:text-emerald-400 italic'><Link to='/signin'>Sign in</Link></span></h2>
             </motion.div>
-
+            
             
             <div className='w-full h-full items-center justify-center relative bg-ed-300 max-sm:flex-col '>
-            <motion.div initial={{opacity:1,y:-170}}  whileInView={{opacity:0}} transition={{duration:4}} className='h-[50%] w-[80%] text-center relative mt-[40%] m-auto bg-blck text-8xl max-sm:hidde max-sm:mt-0 max-lg:pt-[20%]'>
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <motion.path d="M2.00098 11.999L16.001 11.999M16.001 11.999L12.501 8.99902M16.001 11.999L12.501 14.999" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"initial={{pathLength:0}} whileInView={{pathLength:1}} transition={{duration:3}}></motion.path> <motion.path initial={{pathLength:0}} whileInView={{pathLength:1}} transition={{duration:3}} d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.3531 21.8897 19.1752 21.9862 17 21.9983M9.00195 17C9.01406 19.175 9.11051 20.3529 9.87889 21.1213C10.5202 21.7626 11.4467 21.9359 13 21.9827" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></motion.path> </g></svg>
-            </motion.div>
+                <motion.div initial={{opacity:1,y:-170}}  whileInView={{opacity:0}} transition={{duration:4}} className='h-[50%] w-[80%] text-center relative mt-[40%] m-auto bg-blck text-8xl max-sm:hidde max-sm:mt-0 max-lg:pt-[20%]'>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <motion.path d="M2.00098 11.999L16.001 11.999M16.001 11.999L12.501 8.99902M16.001 11.999L12.501 14.999" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"initial={{pathLength:0}} whileInView={{pathLength:1}} transition={{duration:3}}></motion.path> <motion.path initial={{pathLength:0}} whileInView={{pathLength:1}} transition={{duration:3}} d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.3531 21.8897 19.1752 21.9862 17 21.9983M9.00195 17C9.01406 19.175 9.11051 20.3529 9.87889 21.1213C10.5202 21.7626 11.4467 21.9359 13 21.9827" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></motion.path> </g></svg>
+                </motion.div>
 
             {/* <div className='w-[80%] h-[100%] bg-blak md:h-[50%]'> */}
-                <motion.form initial={{opacity:0}} whileInView={{opacity:1}} transition={{delay:3,duration:1}} className='flex flex-col gap-5 relative lg:h-[50%] w-[30%] mt-[-80%] md:h-[100%] bg-back md:w-[100%] items-center max-sm:w-[90%] max-sm:h-[75%] max-md:w-[100%] max-md:h-[60%] max-sm:gap-8 max-sm:ml-[20px]'  onSubmit={signin}>
+                <motion.form initial={{opacity:0}} whileInView={{opacity:1}} transition={{delay:3,duration:1}} className='flex flex-col gap-5  relative lg:h-[50%] w-[30%] mt-[-80%] md:h-[100%] bg-back md:w-[100%] items-center max-sm:w-[90%] max-sm:h-[75%] max-md:w-[100%] max-md:h-[60%] max-sm:gap-8 max-sm:ml-[20px]'  onSubmit={signin}>
                 <label htmlFor="image_uploads" className="cursor-pointer">
                             {previewImage ? (
                                 <img className="w-24 h-24 rounded-full m-uto" src={previewImage}/>

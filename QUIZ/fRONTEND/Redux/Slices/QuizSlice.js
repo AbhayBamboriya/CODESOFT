@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import quizInstance from "../../Helpers/QuizInstance";
+import { data } from "autoprefixer";
 
 
 // initial state of auth slice
@@ -26,6 +27,22 @@ export const StartQuiz=createAsyncThunk('/:id/:id',async(data)=>{
         });
     }
     
+})
+
+
+export const AddedQuestion=createAsyncThunk('/format/:id',async(data)=>{
+    try{
+        console.log('data and id',data);
+        const res=await quizInstance.post(`/append/${data.QuizId}`,data.postData)
+        console.log('res is abaha',res);
+        return (await res).data
+    }
+    catch(e){
+        // toast.error()
+        toast.error(e?.response?.data?.message, {
+            position: "top-right",
+        });
+    }
 })
 
 
@@ -124,10 +141,6 @@ const Quiz=createSlice({
         // if login in successfull then what to ds
         builder
         .addCase(AllQuiz.fulfilled,(state,action)=>{
-            // setting the data in the form of string 
-            // we have stored in local storage because
-            // statte will be fetched from local storage
-            // current state will not be accessed from the local storage thatswhy we have saved in the state
             console.log('a');
             console.log('sate',action?.payload?.quiz);
             // localStorage.setItem("AllQuiz",JSON.stringify(action?.payload?.user))

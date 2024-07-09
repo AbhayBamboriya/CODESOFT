@@ -18,7 +18,7 @@ function Search({updateSearchTerm,placeholder,id}){
                 type="text"
                 placeholder={`${placeholder}`}
                 onChange={debouncedCallback}
-                className="h-full p-2 w-full"
+                className="h-full p-2 w-full text-black"
                 // ref={inputRef}
             />
            {/* { console.log('value',)} */}

@@ -332,16 +332,17 @@ const checkUser=async(req,res,next)=>{
 
 const detail=async(req,res,next)=>{
     try{
-        const {id}=req.body;
-        console.log('id',id);
+
+        const id=req.user.userId || req.user.id;
+        console.log('idea',id,req.user);
         if(!id){
             return next(new AppError('id required',400))
         }
         const user=await User.findById(id)
         if(user){
-            res.status(400).json({
+            res.status(200).json({
                 success:true,
-                // message:'Email ID already Register',
+                message:'Details',
                 user
             }) 
         }    

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FetchDetailOfAllPost, FindingByID } from '../Redux/Slices/JobInternSlice'
 import { FaFilePdf } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 const Applicants = () => {
-    const id=useSelector((state)=>state?.auth?.id)
+    // const id=useSelector((state)=>state?.auth?.id)
+    const id=localStorage.id
+    const navigate=useNavigate()
     console.log('localstordage',localStorage);
     const dispatch =useDispatch()
     async function download(id){
@@ -21,60 +24,74 @@ const Applicants = () => {
       console.log('state daataa',data);
       let t=1
   return (
-    <div className='h-fit     w-full '>
-        
-        <div className='flex items-center justiy-center bg- h-full w-full flex-col '>
-            <h1 className='text-6xl font-bold m-[3%] text-center'>Applicants</h1>
-            <div className='w-full bg-yellw-300 flex justify-center -center'>
-            <table className="table overflow  w-[80%]  border border-red-200 border-4 rounded-4xl">
-                <thead className='text-gray-500 text-2xl bg-red-100 pt-[20px] h-20'>
+    <div className='min-h-screen bg-ray-100'>
+    <div className='container mx-auto py-8'>
+        <h1 className='text-4xl md:text-6xl font-bold text-center text-white mb-8'>Applicants</h1>
+        <div className='w-full overflow-x-auto'>
+            <table className="min-w-full bg-white bg-opacity-20 border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                <thead className='bg-gray-100'>
                     <tr>
-                        <th>
-                            SNo.
-                        </th>
                         
-                        <th>
+                        <th className="px-6 py-3 text-left text-xs md:text-sm uppercase tracking-wider">
                             Title
                         </th>
-                        <th>
+                        <th className="px-6 py-3 text-left text-xs md:text-sm uppercase tracking-wider">
                             Type
                         </th>
-                        <th>
+                        <th className="px-6 py-3 text-left text-xs md:text-sm uppercase tracking-wider">
                             Venue
                         </th>
-                        <th>
+                        <th className="px-6 py-3 text-left text-xs md:text-sm uppercase tracking-wider">
                             Resume
                         </th>
-                        
                     </tr>
                 </thead>
-                
-                <tbody className='gap-11px'> 
-                {
-                        data.length > 0 && 
+                <tbody className='divide-y divide-gray-200'>
+                    {data.length > 0 &&
                         data.map((m, idx) => {
                             if (m.apply.length > 0) {
-                                return m.apply.map((mt) => (
-                                    <tr key={mt.id} className='text-center text-xl bg-ed-200 p-3 border h-20 border-b-3px '>
-                                        <td>{t++}</td>
-                                        <td>{m?.title}</td>
-                                        <td>{m?.type}</td>
-                                        <td>{m?.venue}</td>
-                                        <td className='flex mt-[5%] justify-center text-5xl '><a href={mt.resume.secure_url}><FaFilePdf  className='hover:text-rose-400'/></a></td>
+                                return m.apply.map((mt,i) => (
+                                    <tr key={mt.id} className='bg-white bg-opacity-60'>
+                                        
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm md:text-base text-gray-500">
+                                            {m?.title}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm md:text-base text-gray-500">
+                                            {m?.type}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm md:text-base text-gray-500">
+                                            {m?.venue}
+                                        </td>
+                                        <td className='px-6 py-4 whitespace-nowrap text-sm md:text-base text-gray-500'>
+                                            <a href={mt.resume.secure_url} target="_blank" rel="noopener noreferrer" className='text-blue-600 hover:text-blue-800'>
+                                                <FaFilePdf className='inline-block w-5 h-5 md:w-6 md:h-6' />
+                                            </a>
+                                        </td>
                                     </tr>
                                 ));
-                                
                             }
-                            return null;    
-                        })
-                }
-
+                            return null;
+                        })}
                 </tbody>
             </table>
-            
+            <div className='text-center mt-[5%]'>
+            <button 
+                className='
+                    sm:w-1/6  md:w-1/4 lg:w-1/6 px-4
+                    bg-cyan-600 hover:bg-yellow-500 
+                    rounded-xl transition-all ease-in-out duration-300 
+                    py-2 font-semibold text-lg cursor-pointer
+                ' 
+                onClick={()=>navigate(-1)}
+                >
+                Go Back
+            </button>
             </div>
         </div>
     </div>
+</div>
+
+
   )
 }
 

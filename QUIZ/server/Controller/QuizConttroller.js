@@ -1,5 +1,4 @@
 import Quiz from "../Models/Quiz.model.js";
-import User from "../Models/User.Models.js";
 import AppError from "../utils/error.js";
 import {v4 as uuidv4} from 'uuid'
 const QuizPost  = async(req,res,next)=>{
@@ -11,16 +10,12 @@ const QuizPost  = async(req,res,next)=>{
             console.log('in studennt');
             return next(new AppError('Not Allowed to post a Quiz',400))
         }
-            // return next(new AppError('Email and Password does not match',400))
         const { Questions,Subject,CreatedBy } = req.body;
         if (!userId || !CreatedBy || !Questions || !Subject) {
             return res.status(400).json({ message: 'UserId ,Questions,Subject are required' });
         }
 
-        // const exist =await Quiz.findById
         const formattedQuestions = Questions.map(question => ({
-            // Subject:Subject,
-            // CreatedBy:question.CreatedBy,
             Question: question.Question,
             Options: question.Options,
             CorrectAns: question.CorrectAns,
@@ -53,7 +48,6 @@ const check=async(req,res,next)=>{
     try{
         const {userId}=req.user
         const exist=await Quiz.findOne({userId})
-        console.log('exist',exist,exist.Quiz.length);
         if(exist){
             res.status(201).json({
                 success:true
@@ -74,7 +68,6 @@ const check=async(req,res,next)=>{
 const Question=async(req,res,next)=>{
    try{
     const {Quizid,userId}=req.params
-    // const {}=req.body
     console.log('let',Quizid,userId);
     if(!userId || !Quizid){
        
@@ -105,9 +98,7 @@ const Question=async(req,res,next)=>{
 }
 const AddQuiz=async(req,res,next)=>{
     try{
-        // these is for appending new quiz with the existing quiz
         const {userId,role}=req.user
-        // const {QuizId}=req.params
         if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
         const { Questions,CreatedBy,Subject } = req.body; 
         if(!userId){
@@ -118,16 +109,13 @@ const AddQuiz=async(req,res,next)=>{
             new AppError('Question and Subject are required',400)
         }
         const formattedQuestions = Questions.map(question => ({
-            // _id: uuidv4(),
             Question: question.Question,
             Options: question.Options,
             CorrectAns: question.CorrectAns,
             Marks: question.Marks
         }));
-        // console.log(userId,QuizId);
         const exist=await Quiz.findOne({userId})
         console.log(formattedQuestions);
-        // exist.Quiz._id=uuidv4()
         exist.Quiz.push({Questions:formattedQuestions,_id:uuidv4(),Subject:Subject,CreatedBy:CreatedBy})
         await exist.save()
         res.status(200).json({
@@ -150,6 +138,7 @@ const AddQuestion=async(req,res,next)=>{
         if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
         const {QuizId}=req.params
         const { Questions } = req.body;
+        console.log('QuizId and Questions',QuizId,Questions);
     const exist=await Quiz.findOne({userId})
     
     const formattedQuestions = Questions.map(question => ({
@@ -187,7 +176,6 @@ const AddQuestion=async(req,res,next)=>{
 
 const formatting=async(req,res,next)=>{
     try{
-        // const {QuestionId}=req.body
         const {userId,role}=req.user
         if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
         const { Question } = req.body;
@@ -201,7 +189,6 @@ const formatting=async(req,res,next)=>{
         }));
 
         const quizDocument=await Quiz.findOne({userId})
-        // console.log('formatted',formattedQuestions);
 
         const quiz = quizDocument.Quiz.find(quiz => quiz._id == QuizId);
         for(let i=0;i<formattedQuestions.length;i++){
@@ -217,11 +204,9 @@ const formatting=async(req,res,next)=>{
             console.log('after cahnges  question is',question);
         }
 
-        // await quizDocument.save()
         res.status(201).json({
             success:true,
             message:"Question formatted successfully",
-            // exist
         })
     }
     catch(e){
@@ -239,7 +224,6 @@ const MyQuiz=async(req,res,next)=>{
         res.status(201).json({
             success:true,
             message:"My Quiz",
-            // exist
             Quiz:quizDocument.Quiz
         })
 
@@ -252,7 +236,6 @@ const MyQuiz=async(req,res,next)=>{
 
 const AllQuiz=async(req,res,next)=>{
     try{
-        // const quizDocument=await Qui
         const quiz=await Quiz.find({})
         console.log(quiz);
         return res.status(201).json({
@@ -272,7 +255,6 @@ const deleteQuestion = async (req, res, next) => {
         const { QuestionId } = req.body;
         const { QuizId } = req.params;
 
-        // Find the quiz for the user
         const quizDocument = await Quiz.findOne({ userId });
 
         if (!quizDocument) {
@@ -282,7 +264,6 @@ const deleteQuestion = async (req, res, next) => {
             });
         }
 
-        // Find the quiz within the quizzes array
         const quiz = quizDocument.Quiz.find(quiz => quiz._id == QuizId);
 
         if (!quiz) {
@@ -292,7 +273,6 @@ const deleteQuestion = async (req, res, next) => {
             });
         }
 
-        // Find the index of the question to be removed
         const questionIndex = quiz.Questions.findIndex(question => question._id == QuestionId);
 
         if (questionIndex === -1) {
@@ -302,10 +282,8 @@ const deleteQuestion = async (req, res, next) => {
             });
         }
 
-        // Remove the question
         quiz.Questions.splice(questionIndex, 1);
 
-        // Save the updated document
         await quizDocument.save();
 
         res.status(201).json({
@@ -323,7 +301,6 @@ const deleteQuiz=async (req,res,next)=>{
         const { QuizId } = req.params;
         console.log(userId,role,QuizId);
         if(role=='Student') return next(new AppError('Not Allowed to post a Quiz',400))
-        // console.log(req);
         if(!userId){
             return next(new AppError('Not Authorised to delete the quiz',400))
         }
@@ -333,8 +310,6 @@ const deleteQuiz=async (req,res,next)=>{
         console.log(QuizId,userId);
 
         const quizDocument = await Quiz.findOne({ userId });
-        // console.log('qd',quizDocument);
-        // const quiz=quizDocument.Quiz.find
         const quizIndex = quizDocument.Quiz.findIndex(quiz => quiz._id == QuizId);
         const quiz = quizDocument.Quiz.find(quiz => quiz._id == QuizId);
         console.log('quiz is',quiz);
@@ -345,11 +320,9 @@ const deleteQuiz=async (req,res,next)=>{
                 message: "Quiz not found"
             });
         }
-        console.log("Before remoival",quizDocument.Quiz[quizIndex]);
         quizDocument.Quiz.splice(quizIndex, 1);
 
-        console.log('quiz Document',quizDocument);
-        console.log("Afeter remoival",quizDocument.Quiz[quizIndex]);
+       
         await quizDocument.save({Subject:''})
         res.status(201).json({
             success: true,
@@ -363,7 +336,8 @@ const deleteQuiz=async (req,res,next)=>{
 }
 
 export{
-    QuizPost,deleteQuiz,
+    QuizPost,
+    deleteQuiz,
     AddQuestion,
     deleteQuestion,
     formatting,

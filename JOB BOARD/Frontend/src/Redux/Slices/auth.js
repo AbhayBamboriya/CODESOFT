@@ -58,11 +58,12 @@ export const login=createAsyncThunk('/auth/login',async(data) =>{
 
 export const FindByIdApplication=createAsyncThunk('/find',async(id)=>{
     try{
-        const res=await axiosInstance.get(`/detail`,id)
+        const res=await axiosInstance.get(`/detail`)
         console.log('res fron bamboriya',res);
         return (await res).data
     }
     catch(e){
+        console.log('jfdfjdfj',e);
         toast.error(e?.response?.data?.message)
     }
 })

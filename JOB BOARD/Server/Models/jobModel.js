@@ -68,7 +68,7 @@ const JobSchema =  new Schema({
         required:[true,'ID is Required'],
     },
     deadline:{
-        type:'Date',
+        type:'String',
         required:[
             true,'Deadline is required'
         ]

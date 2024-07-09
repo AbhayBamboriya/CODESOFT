@@ -28,9 +28,7 @@ const createServe1 = (email) => {
                 return;
             }
             console.log("success!");
-            response.statusCode = 200;
-            response.setHeader('Content-Type', 'text/plain');
-            response.end('Email sent successfully');
+            
         });
     // });
 

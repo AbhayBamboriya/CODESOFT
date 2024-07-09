@@ -16,14 +16,14 @@ const Navbar = () => {
             
             console.log('checkckksdks');
             toast.success("User Logged Out Successfully");
-            // toast.success(res?.payload?.message)
             navigate('/')
         }
     }
+    const role=localStorage.getItem('role') 
   return (
         <>
         <ToastContainer/>
-            <div className='bg-[#0c0c1d] w-screen h-full p-[3%] flex  justify-around'>
+            <div className='bg-[#0c0c1d] w-screen h-[20%] p-[3%] flex  justify-around'>
                 
                 <div className='h-[10%] w-[10%]'>
                     <img src={img} className='w-[60%]'/>
@@ -33,13 +33,13 @@ const Navbar = () => {
                         <li className='cursor-pointer hover:text-emerald-500' onClick={logout}>
                             Logout
                         </li>
-                        <li className='cursor-pointer hover:text-emerald-500' onClick={()=>navigate('/myQuiz')}>
+                        {role=='Teacher' &&<li className='cursor-pointer hover:text-emerald-500' onClick={()=>navigate('/myQuiz')}>
                             My_Quiz
-                        </li>
-                        <li className='cursor-pointer flex w-fit-content bgblack hover:text-emerald-500'>
+                        </li>}
+                        {role=='Teacher' && <li className='cursor-pointer flex w-fit-content bgblack hover:text-emerald-500'>
                             
                             <Link to='/createQuiz'>Post_Quiz</Link>
-                        </li>
+                        </li>}
                        
                     </ul>
 

@@ -2,6 +2,7 @@ import mongoose, { Schema,Model } from "mongoose";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import crypto from 'crypto'
+import { title } from "process";
 const userSchema =  new Schema({
     Name:{
         type:'String',
@@ -34,17 +35,25 @@ const userSchema =  new Schema({
             type:'String',
             required:[true,'Id are Requried']
         },
-        domain:{
+        company:{
             type:'String',
-            required:[true,'Domain are Requried']
+            required:[true,'Company are Requried']
         },
-        resume:{
-            public_url:{
-                type:'String'
-            },
-            secure_url:{
-                type:'String'
-            }
+        title:{
+            type:'String',
+            required:[true,'Title are Requried']
+        },
+        type:{
+            type:'String',
+            required:[true,'Type are Requried']
+        },
+        venue:{
+            type:'String',
+            required:[true,'Venue are Requried']
+        },
+        deadline:{
+            type:'String',
+            required:[true,'Deadline are Requried']
         }
     }],
     profile:{

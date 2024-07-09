@@ -30,10 +30,10 @@ const isLoggedIn = async (req,res,next)=>{
 // roles is passed as list in roles
 const authorisedRoles=(...roles)=>async (req,res,next)=>{
 // req.user me jwt token ke throw saaari information mil jayegi
-console.log('checkiiiii',JSON.stringify(roles));
+// console.log('checkiiiii',JSON.stringify(roles));
     
     const currentUser=req.user.role;
-    
+    console.log('CURRENT USER',currentUser);
     if(!roles.includes(currentUser)){
         return next(
             new AppError('Do not have permission to access these route ',403)
@@ -43,17 +43,7 @@ console.log('checkiiiii',JSON.stringify(roles));
 }
 
 
-// const authorisedSubscriber = async(req,res,next) =>{
-//     const subscritption=req.user.subscription
-//     const currentUser=req.user.role;
-//     if(currentUser !== 'ADMIN' && subscritption.status !== 'active'){
-//         return next(
-//             new AppError('Please subscribe to access these route',403)
-//         )
-//     }
 
-//     next()
-// }
  const authorisedSubscriber = (async (req, _res, next) => {
     // If user is not admin or does not have an active subscription then error else pass
     if (req.user.role !== "ADMIN" && req.user.subscription.status !== "active") {
@@ -64,6 +54,5 @@ console.log('checkiiiii',JSON.stringify(roles));
   });
 export{
     isLoggedIn,
-    authorisedSubscriber,
     authorisedRoles
 }

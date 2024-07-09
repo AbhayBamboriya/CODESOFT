@@ -4,36 +4,24 @@ import cookieParser  from 'cookie-parser'
 import morgan from 'morgan';
 import userRoutes from './Routes/UserRoutes.js'
 import QuizRoutes from './Routes/QuizRoutes.js'
-// import errorMiddleware from './middleware/error.middleware.js';
-// import miscRoutes from './routes/misllaneous.routes.js'
 
-// const bodyParser = require('body-parser');
 import bodyParser from 'body-parser'
 import errorMiddleware from './middleware/error.middleware.js';
 const app=express()
-// Enable CORS for all routes
 app.use((req, res, next) => {
-    // res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    // res.header('Access-Control-Allow-Methods', '*');
-    // res.header('Access-Control-Allow-Headers', '*');
-    // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization,GET , POST');
     next();
 });
-// for parsing to json data directly
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.urlencoded({extended:true}))        //it will extract out the query params from url
-app.use(morgan('dev'))  //morgan will track all the access point or to which url the request made at localhost and it will print it in terminal 
+app.use(express.urlencoded({extended:true}))       
+app.use(morgan('dev'))  
 app.use(cors({
-    // frntend ka url will be different thatswhy by using cors we can interact with frontend page
     origin:[process.env.FRONTEND_URL],
-    // credential used because cookie can be navigate from from different localhost
     credentials:true
 }));
-// cookie parser is udes to get the directly token which is used in isLoggedin method used in auth middleware
-// for parsing the token
-app.use(cookieParser()) //by using cookie parrser token can be extracted easily that is used in auth.middleware.js
+
+app.use(cookieParser()) 
 app.use('/ping',function(req,res){
     res.send('/pong')
 })

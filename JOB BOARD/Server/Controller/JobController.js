@@ -12,6 +12,8 @@ const createJob =async(req,res,next)=>{
         if(!title || !id || !venue || !perks || !type  ||!company  || !skills || !experience || !description ||!deadline || (type=='Internship' && !stipend) || (type=='Job' && !salary)){
             return next(new AppError('All fields are Required',400))
         }
+
+        console.log('deadline is',deadline);
         // if(!)
         // const exist=await Job.findOne ({
         //     id
@@ -76,8 +78,9 @@ const getById=async (req,res,next)=>{
 
 const FindById=async (req,res,next)=>{
     try{
+
         const {Id}=req.params
-        console.log('id is',Id);
+        console.log('id fiifdi',Id);
         // const job=await Job.findById(id)
 
         // const exist=await Job.findOne ({
@@ -156,9 +159,10 @@ const apply=async (req,res,next)=>{
             secure_url:secureUrl   
         }
         // console.log('obj is',obj);
+        console.log('company is',company);
         company.apply.push({id:userId,domain:type,resume:obj})
-        // console.log('company is',companyId);
-        user.apply.push({id:companyId,domain:type,resume:obj})
+        
+        user.apply.push({id:companyId,domain:type,resume:obj,company:company.company,title:company.title,type:company.type,venue:company.venue,deadline:company.deadline})
         // console.log('printing detail',user);
         await company.save()
         await user.save()

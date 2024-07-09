@@ -10,6 +10,8 @@ import MyApplication from './Pages/MyApplication'
 import Jobs from './Pages/Jobs'
 import Applicants from './Pages/Applicants'
 import Post from './Pages/Post'
+import RequireAuth from './Compnents/Auth/RequireAuth'
+import NotFound from './Pages/NotFound'
 function App() {
 
 
@@ -24,9 +26,14 @@ function App() {
           <Route path='/Job' element={<Internship/>}/>
           <Route path= {`/apply/:id`} element={<Apply/>}/>
           <Route path='/application' element={<MyApplication/>}/>
-          <Route path='/applicants' element={<Applicants/>}/>
+          
           <Route path='/list' element={<Jobs/>}/>
-          <Route path='/post' element={<Post/>}/>
+
+          <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+            <Route path='/applicants' element={<Applicants/>}/>
+            <Route path='/post' element={<Post/>}/>
+          </Route>
+          <Route path='*' element={<NotFound/>}></Route>
         </Routes>
     </>
   )

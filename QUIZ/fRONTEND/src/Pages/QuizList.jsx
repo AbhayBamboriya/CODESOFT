@@ -129,11 +129,11 @@ const QuizList = () => {
     }
     console.log('detecting',`/quiz/${userId}/${QuizId}/false`,path);
     return (
-        <div>
+        <div className="h-[100vh] overflow-y-scroll bg-[url('https://images.pexels.com/photos/7130545/pexels-photo-7130545.jpeg?auto=compress&cs=tinysrgb&w=600')]  bg-cover bg-center">
             {console.log('checking here',path,`/quiz/${userId}/${QuizId}/false`)}
             {path === `/quiz/${userId}/${QuizId}/false` ? (
             <div
-                        className="text-black bg-[url('https://images.pexels.com/photos/7130545/pexels-photo-7130545.jpeg?auto=compress&cs=tinysrgb&w=600')]  bg-cover bg-center h-screen flex flex-col items-center justify-center"
+                        className="text-black  h-screen flex flex-col items-center justify-center"
                         
                         >
                         
@@ -150,7 +150,7 @@ const QuizList = () => {
                                 
                                 <div key={index} className="flex items-center h-full justify-center bg-back">
                                     {/* {console.log('quetion le',q)} */}
-                                    <div className="text-center h-full bg-rd-400 flex flex-col gap-[50px]">
+                                    <div className="text-center h-[100] bg-rd-400 flex flex-col gap-[50px]">
                                        <div className='flex flex-col  items-center  gap- w-full bg-back  justify-around'>
                                         <h3 className="text-3xl font-bold mb-2 text-center bg-re-400 w-full flex justify-center gap-[2%]">
                                             <span>{currentSlide}).</span>
@@ -229,7 +229,10 @@ const QuizList = () => {
                     </div>
                 ))}
             </div>
-            <FaBackward onClick={()=>navigate(-1)} className='text-6xl mt-[2%] text-emerald-500 hover:text-emerald-700 cursor-pointer'/>
+            <div className='flex justify-center items-center gap-[10%] bg-lack mt-[2%]'>
+            <FaBackward onClick={()=>navigate('/myQuiz')} className='text-6xl text-emerald-500 hover:text-emerald-700 cursor-pointer'/>
+                <button onClick={()=>navigate(`/format/${QuizId}`)} className='text-center w-ful bgblack p-4 bg-emerald-500 hover:bg-emerald-600 rounded-xl' >Add Question</button>
+            </div>
         </div>
           )}
         </div>

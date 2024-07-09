@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { AppendQuiz, Check, PostQuiz } from '../../Redux/Slices/QuizSlice';
+import { AddedQuestion, AppendQuiz, Check, PostQuiz } from '../../Redux/Slices/QuizSlice';
 import { FaBackward } from "react-icons/fa";
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
-function CreateQuiz() {
+const AddQuestion = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const {QuizId}=useParams()
+    const userId=localStorage.getItem('UserId')
     const [postData, setPostData] = useState({
-        Subject: "",
-        CreatedBy: "",
         Questions: [
             {
                 Question: "",
@@ -74,7 +74,7 @@ function CreateQuiz() {
         setLoading(true);
 
         // Validate fields
-        if (!postData.CreatedBy || !postData.Subject || !postData.Questions) {
+        if (!postData.Questions) {
             setLoading(false);
             return toast.error("All Fields are Required");
         }
@@ -90,33 +90,15 @@ function CreateQuiz() {
                 return toast.error("All Options are Required");
             }
         }
-        const res1=await dispatch(Check())
-        console.log('frontend response check',res1);
-        if(res1?.payload?.success){
-          const r=await dispatch(AppendQuiz(postData))
-          console.log('r in papa',r);
-          if (r?.payload?.success) {
-            // console.log('checking result', res);
-            toast.success(r?.payload?.message);
-            navigate('/mainpage');
-        } else {
-            toast.error(r?.payload?.message || 'An error occurred');
+        
+        console.log('psting data',postData,QuizId);
+        const res=await dispatch(AddedQuestion({postData,QuizId}))
+        console.log('response is from backend of added question',res);
+        if(res?.payload?.success){
+            toast.success('Questin Added Successfully')
+            navigate(`/quiz/${userId}/${QuizId}/true`)
         }
-        }
-        else{
-          const res = await dispatch(PostQuiz(postData));
-            if (res?.payload?.success) {
-                console.log('checking result', res);
-                toast.success(res?.payload?.message);
-                navigate('/mainpage');
-            } else {
-                toast.error(res?.payload?.message || 'An error occurred');
-            }
-        }
-
         setPostData({
-            Subject: "",
-            CreatedBy: "",
             Questions: [
                 {
                     Question: "",
@@ -128,32 +110,13 @@ function CreateQuiz() {
         });
         setLoading(false);
     };
-
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
             
             <div className="w-full max-w-3xl p-6 bg-gray-800 rounded-lg h-[100vh] overflow-y-auto max-h-full">
                 <FaBackward className='text-2xl hover:text-emerald-500 cursor-pointer mb-4' onClick={() => navigate(-1)} />
-                <h1 className="text-3xl font-bold mb-4">Create Quiz</h1>
+                <h1 className="text-3xl font-bold mb-4">Add Question</h1>
                 <form noValidate onSubmit={onSubmit} className="w-full flex flex-col gap-4">
-                    <input
-                        type="text"
-                        required
-                        name="Subject"
-                        placeholder="Enter your subject"
-                        className="bg-gray-700 p-2 rounded"
-                        onChange={handleUserInput}
-                        value={postData.Subject}
-                    />
-                    <input
-                        type="text"
-                        required
-                        name="CreatedBy"
-                        placeholder="Enter your name"
-                        className="bg-gray-700 p-2 rounded"
-                        onChange={handleUserInput}
-                        value={postData.CreatedBy}
-                    />
                     {postData.Questions.map((question, qIndex) => (
                         <div key={qIndex} className="bg-gray-700 p-4 rounded mb-4">
                             <input
@@ -204,19 +167,19 @@ function CreateQuiz() {
                         </div>
                     ))}
                     <button type="button" onClick={handleAddQuestion} className="bg-blue-500 p-2 rounded">
-                        Add Question
+                        Add More Question
                     </button>
                     <button
                         type="submit"
                         className="bg-green-500 p-2 rounded"
                     >
-                        {loading ? 'Creating Quiz...' : 'Create Quiz'}
+                        {loading ? ' Submitting' : 'Submit'}
                     </button>
                     <ToastContainer />
                 </form>
             </div>
         </div>
-    );
+  )
 }
 
-export default CreateQuiz;
+export default AddQuestion
