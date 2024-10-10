@@ -10,8 +10,8 @@ function Footer() {
                 Copyright {year} | All rights reserved
             </section>
             <section className="flex items-center justify-center gap-5 mt-3 sm:mt-0">
-                <a className="hover:text-yellow-500 transition-colors duration-300" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
-                    <BsFacebook className="text-2xl" />
+                <a className="hover:txt-yellow-500 transition-colors duration-300" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+                    <BsFacebook className="text-2xl"  aria-hidden="true"/>
                 </a>
                 <a className="hover:text-yellow-500 transition-colors duration-300" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
                     <BsInstagram className="text-2xl" />

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stipend Point Allocator</title>
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+h1, h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+input[type="file"], button {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+}
+
+input[type="file"]:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+#result, #rangeInputs {
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.range-input-group {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.range-input-group label {
+  margin-right: 10px;
+}
+
+.range-input-group input[type="number"] {
+  width: 50px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.range-input-group button {
+  margin-left: 10px;
+}
+
+#cameraPreview {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 20px;
+  display: none;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+#capturedImage {
+  margin-top: 20px;
+  max-width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+    </style>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.0/dist/jspdf.umd.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.24/dist/jspdf.plugin.autotable.min.js"></script> -->
+</head>
+<body>
+    <div class="container">
+        <h1>Stipend Point Allocator</h1>
+        
+        <h2>Upload File</h2>
+        <input type="file" id="fileInput" accept=".csv">
+        <button onclick="processFile()">Process File</button>
+        <div id="result"></div>
+
+        
+    </div>
+
+    <script>
+        let processedData = [];
+        let maxStipend = 0;
+        let userRanges = [];
+        let videoStream = null;
+
+        
+
+        function processFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (e?.target?.result) processContent(e.target.result);
+                };
+                reader.readAsText(file);
+            } else {
+                alert('Please select a file.');
+            }
+        }
+
+        function processContent(content) {
+            const lines = content.split('\n');
+            const headers = lines[0].split(',');
+            const stipendIndex = headers.indexOf('Stipend');
+            
+            if (stipendIndex === -1) {
+                alert('Stipend column not found in the CSV file.');
+                return;
+            }
+
+            processedData = [headers];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                if (values.length > stipendIndex) {
+                    const stipend = parseFloat(values[stipendIndex]);
+                    if (isNaN(stipend)) continue;
+                    maxStipend = Math.max(maxStipend, stipend);
+                    processedData.push(values); 
+                }
+            }
+
+            renderTable(false); 
+        }
+
+        
+        
+
+        
+
+        function renderTable(includePoints) {
+            let resultHtml = '<h2>Results</h2><table><tr>' + 
+                processedData[0].map(h => `<th>${h}</th>`).join('');
+            
+            resultHtml += '</tr>';
+
+            for (let i = 1; i < processedData.length; i++) {
+                const values = processedData[i];
+                resultHtml += '<tr>' + 
+                    values.map(v => `<td>${v}</td>`).join('');
+                
+                resultHtml += '</tr>';
+            }
+
+            resultHtml += '</table>';
+            // resultHtml += '<p>Maximum Stipend: ' + maxStipend + '</p>';
+            // resultHtml += '<h2>Define Stipend Range Points</h2>';
+            // resultHtml += '<div id="rangeInputs"></div>';
+            // resultHtml += '<button onclick="addRangeInput()">Add Range</button>';
+            // resultHtml += '<button onclick="applyRanges()">Apply Ranges</button>';
+            // resultHtml += '<button onclick="downloadPDF()">Download Updated PDF</button>';
+            // resultHtml += '<button onclick="shareOnWhatsApp()">Share on WhatsApp</button>';
+            
+            document.getElementById('result').innerHTML = resultHtml;
+        }
+
+       
+     
+    </script>
+</body>
+</html>

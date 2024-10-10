@@ -184,7 +184,7 @@ const changePassword=async(req,res,next)=>{
         }
 
         const user = await User.findById(id).select('+password')
-        if(!user){
+        if(!user){ 
             return next(
                 new AppError('User does not exist',400)
             )

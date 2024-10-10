@@ -7,14 +7,12 @@ const QuizSchema =  new Schema({
         required:[true,'UserId is required']
     },
         Quiz:[{
-            // _id: uuidv4(),
+            
             CreatedBy:{
                 type:'String',
-                // required:[true,'Who is posting the quiz is Required']
             },
             Subject:{
                 type:'String',
-                // required:[true,'Subject is Required']
             },
             _id:{
                 type:'String'

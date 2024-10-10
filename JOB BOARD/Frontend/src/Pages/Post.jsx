@@ -195,12 +195,13 @@ const Post = () => {
               type="date"
               required
               name='deadline'
+              placeholder='Enter Deadline'
               className='w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500'
               value={postData.deadline}
               onChange={handleUserInput}
             />
             <textarea
-              placeholder='Enter Description'
+              placeholder='About the Company'
               name="description"
               className='w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500'
               value={postData.description}

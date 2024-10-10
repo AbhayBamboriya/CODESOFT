@@ -102,6 +102,17 @@ const authSlice=createSlice({
     extraReducers:(builder)=>{
         // if login in successfull then what to ds
         builder
+        .addCase(createAccount.fulfilled,(state,action)=>{
+            console.log('in create account',action);
+            localStorage.setItem("data",action?.payload?.user)
+            localStorage.setItem("isLoggedIn",true)
+            localStorage.setItem("UserId",action?.payload?.user?._id)
+            localStorage.setItem("role",action?.payload?.user?.role)
+            state.isLoggedIn=true
+            state.data=action?.payload?.user
+            state.UserId=action?.payload?.user?._id
+            state.role=action?.payload?.user?.role
+        })
         .addCase(login.fulfilled,(state,action)=>{
             // setting the data in the form of string 
             // we have stored in local storage because

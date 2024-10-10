@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { DeleteQuiz, StartQuiz } from '../../Redux/Slices/QuizSlice';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 function CalculateMarks(questions){
     let marks=0;
@@ -21,6 +21,7 @@ const Quiz = ({createdBy,subject,id,userId,questions,check}) => {
   
   // console.log('location is ',location.pathname);
   const path=location.path
+  console.log('dshdhdhsh',localStorage.getItem('role'));
   const marks=  CalculateMarks(questions)
   const dispatch=useDispatch()
   const navigate=useNavigate()
@@ -28,16 +29,15 @@ const Quiz = ({createdBy,subject,id,userId,questions,check}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
-
+  
   async function Delete(){
+
     const res=await dispatch(DeleteQuiz(id))
     console.log('res from delete',res);
     if(res?.payload?.success){
-      // navigate('/myQuiz')
-      toast.success('Quiz Deleted Successfully',{
-        autoClose:3000
-      })
+     
       window.location.reload();
+      // toast.success('Quiz Deleted Successfully')
       
     }
   }
@@ -77,6 +77,7 @@ const Quiz = ({createdBy,subject,id,userId,questions,check}) => {
     onMouseLeave={handleMouseLeave}
     className=' mb-[30px] flex h-[10%] w-[26%] items-cnter justify-center overflow-hidden rounded-xl border border-gray-800  transform bg-wite bg-[radial-gradient(60%_120%_at_50%_50%,hsla(0,0%,100%,0)_0,rgba(252,205,238,.5)_100%)] px-8 py-16 shadow-2xl'
   >
+    <ToastContainer/>
     <div
       className='pointer-events-none absolute -inset-px opacity-0 transition duration-300'
       style={{
@@ -84,13 +85,30 @@ const Quiz = ({createdBy,subject,id,userId,questions,check}) => {
         background: `radial-gradient(100px circle at ${position.x}px ${position.y}px, rgba(255,182,255,.1), transparent 40%)`,
       }}
     />
-    <div className='text-center flex flex-col gap-[15%] h-[40%] bg-blck'>
+    <div className='text-center flex flex-col gap-[15%] h-[100%] '>
           <h1 className='text-white'>Quiz</h1>
           <span className='text-white'>Created By : {createdBy}</span>
           <h2 className='text-white'>Subject : {subject}</h2>
           <h2 className='text-white'>Total Marks : {marks}</h2>
           <Link to={`/quiz/${userId}/${id}/${check}`}>
-           {((location.pathname=='/mypage' && localStorage.getItem('role')=='Student' ) || location.pathname=='/myQuiz' ) && <button
+          {
+            // localStorage.getItem('role')
+          location.pathname=='/mainpage' && localStorage.getItem('role')=="Student" &&
+          <button
+          className="relative  inline-flex h-10 overflow-hidden rounded-full p-[1px] hover:outline-none hover:ring-2 hover:ring-gray-400 hover:ring-offset-2 hover:ring-offset-gray-50"
+          // className="bg-yellow-500 mt-2 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded-xl py-2 font-semibold text-lg cursor-pointer"
+          >
+           
+              <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
+                      <span className='inline-flex w-full h-full cursor-pointer items-center justify-center rounded-full bg-gray-950 px-8 py-1 text-sm font-medium text-gray-50 backdrop-blur-3xl hover:bg-gray-900'>
+              
+                      {location.pathname=='/myQuiz' ? 'See Info' :"Let's Start"}
+                      
+              </span>
+          </button>
+}
+{location.pathname=='/myQuiz' &&
+          <button
                       className="relative  inline-flex h-10 overflow-hidden rounded-full p-[1px] hover:outline-none hover:ring-2 hover:ring-gray-400 hover:ring-offset-2 hover:ring-offset-gray-50"
                       // className="bg-yellow-500 mt-2 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded-xl py-2 font-semibold text-lg cursor-pointer"
                       >
@@ -101,8 +119,8 @@ const Quiz = ({createdBy,subject,id,userId,questions,check}) => {
                                   {location.pathname=='/myQuiz' ? 'See Info' :"Let's Start"}
                                   
                           </span>
-                      </button>}
-
+                      </button>
+}
          
           </Link>
           {

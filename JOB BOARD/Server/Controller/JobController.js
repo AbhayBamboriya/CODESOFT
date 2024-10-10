@@ -47,7 +47,7 @@ const createJob =async(req,res,next)=>{
 
         res.status(201).json({
             success:true,
-            message:"Job Posted Successfully",
+            message:`${type} Posted Successfully`,
             createJob
         })
             

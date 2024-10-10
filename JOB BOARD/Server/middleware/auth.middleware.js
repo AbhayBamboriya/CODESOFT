@@ -33,6 +33,7 @@ const authorisedRoles=(...roles)=>async (req,res,next)=>{
 // console.log('checkiiiii',JSON.stringify(roles));
     
     const currentUser=req.user.role;
+    console.log(req.user);
     console.log('CURRENT USER',currentUser);
     if(!roles.includes(currentUser)){
         return next(

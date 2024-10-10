@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { isEmail } from '../../Helpers/RegexMatcher';
 import {createAccount}  from '../../Redux/Slices/AuthSlice'
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 const Signup = () => {
@@ -75,7 +75,7 @@ const Signup = () => {
       
         console.log('skaaowqwowwqoqwwqiw');
       
-        if(signupData.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/)){
+        if(signupData.password.match(/^(?=.\d)(?=.[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/)){
             setLoading(false)
             return toast.error('Password should contain at least 8 character 1 digit 1 lower case 1 uppercase', {
               position: "top-right",
@@ -89,7 +89,7 @@ const Signup = () => {
         console.log('respone- '+response.payload);
         if(response?.payload?.success) {
             notifySuccess("Registration Completed!");
-            navigate('/mainPage')
+            navigate('/mainpage')
         } else{
             notifyError("Registration failed. Please try again.");
         }
@@ -108,6 +108,7 @@ const Signup = () => {
     }
     return (
         <div>
+            <ToastContainer/>   
         <div className="flex items-center justify-center backdrop-brightness-90 absolute top-0 z-[-2] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]">
             <div className="flex items-center justify-center h-screen w-[75%]">
                 <form noValidate onSubmit={createNewAccount} className="flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-11/12 sm:w-2/5 md:w-2/8 lg:w-1/2 bg-blak xl:w-1/3 shadow-[0_0_10px_black]">

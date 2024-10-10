@@ -1,0 +1,103 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    box-sizing: border-box; /* added */
+  }
+  video {
+    width: 100%; /* Or specify other dimensions */
+    border: 1px solid #ccc; /* Optional styling */
+}
+
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* added */
+  }
+  
+  h1, h2 {
+    color: #333;
+    margin-bottom: 10px; /* added */
+  }
+  
+  input[type="file"], button {
+    margin-bottom: 20px;
+    padding: 10px 20px; /* added */
+    border: none; /* added */
+    border-radius: 5px; /* added */
+    background-color: #4CAF50; /* added */
+    color: #fff; /* added */
+    cursor: pointer; /* added */
+  }
+  
+  input[type="file"]:focus, button:focus {
+    outline: none; /* added */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* added */
+  }
+  
+  #result, #rangeInputs {
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  .range-input-group {
+    margin-bottom: 10px;
+    display: flex; /* added */
+    align-items: center; /* added */
+  }
+  
+  .range-input-group label {
+    margin-right: 10px; /* added */
+  }
+  
+  .range-input-group input[type="number"] {
+    width: 50px; /* added */
+    padding: 5px; /* added */
+    border: 1px solid #ccc; /* added */
+    border-radius: 5px; /* added */
+  }
+  
+  .range-input-group button {
+    margin-left: 10px; /* added */
+  }
+  
+  #cameraPreview {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 20px;
+    display: none;
+    border: 1px solid #ddd; /* added */
+    border-radius: 5px; /* added */
+    padding: 10px; /* added */
+  }
+  
+  #capturedImage {
+    margin-top: 20px;
+    max-width: 100%;
+    border: 1px solid #ddd; /* added */
+    border-radius: 5px; /* added */
+    padding: 10px; /* added */
+  }

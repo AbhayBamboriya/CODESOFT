@@ -4,7 +4,7 @@ import {v4 as uuidv4} from 'uuid'
 const QuizPost  = async(req,res,next)=>{
     try {
         const {userId,role} =req.user
-        console.log('information',role);
+        console.log('information',req.user);
 
         if(role==='Student') {
             console.log('in studennt');

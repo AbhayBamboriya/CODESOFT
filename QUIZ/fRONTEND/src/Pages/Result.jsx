@@ -29,8 +29,8 @@ const Result = () => {
         <div className='min-screen bg-red-400 flex flex-col items-center justify-cnter h-[100vh] ga-[10%] overflow-y-scroll' style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover' }}>
             <h1 className='text-7xl text-center z-10'>Congratulations for Result</h1>
             <h1 className='text-4xl -4'>Marks Scored: {marks}</h1>
-                <h1 className='text-4xl mb-4'>Out Of: {totalMarks}</h1>
-            <div className='flex flex-col items-center justify-center bg-wite min-h-screen w-full h-screen overflowy-scroll'>
+            <h1 className='text-4xl mb-4'>Out Of: {totalMarks}</h1>
+            <div className='flex flex-col items-center justify-ceter bg-whie min-h-screen w-full h-screen overflowy-scroll mt-40px'>
                 
                 {question && question.length > 0 && question.map((q, index) => (
                     <div key={index} className="flex items-center justify-center my-4 w-full">

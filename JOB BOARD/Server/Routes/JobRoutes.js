@@ -6,7 +6,7 @@ const router =Router();
 
 
 
-router.post('/post/:id',isLoggedIn,authorisedRoles("ADMIN"),createJob)
+router.post('/post/:id',isLoggedIn,createJob)
 router.get('/Job',getAllJob)
 router.get('/Internship',getAllInernship)
 router.get('/internship/:title',getInternshipByTitle)

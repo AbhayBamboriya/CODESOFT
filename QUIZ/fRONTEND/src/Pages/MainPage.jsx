@@ -24,7 +24,7 @@ const MainPage = () => {
     return (
         <div className='h-[100vh] overflow-y-auto'>
             <Navbar />
-            <div className='bg-gradient-to-b from-[#0c0c1d]  to-[#070746] flex justify-center items-center htent '>
+            <div className='bg-gradient-to-b from-[#0c0c1d]  to-[#070746] flex justify-center items-center htent h-screen'>
             <div className='w-[100%] flex  justify-center flex-wrap gap-[5%] sm:flex-cl h-ful max-h-fll bg-blak mb-[3%]  verflow-yauto '>
                 {Array.isArray(allQuiz) && allQuiz.length > 0 && allQuiz.map((d) => {
                     console.log('in map',(d));
