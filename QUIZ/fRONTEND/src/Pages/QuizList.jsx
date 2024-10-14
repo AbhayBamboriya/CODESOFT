@@ -76,6 +76,17 @@ const QuizList = () => {
         fetchQuiz();
     }, [dispatch, QuizId, userId]);
 
+    useEffect(() => {
+        // Calculate the total marks based on the fetched questions
+        let total = 0;
+        if (question && question.length > 0) {
+            question.forEach(q => {
+                totalMarks += q.Marks;
+            });
+        }
+        // setTotalMarks(total); // Update total marks state
+    }, [question]);
+
     const settings = {
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -101,7 +112,7 @@ const QuizList = () => {
                                         <h3 className="text-3xl font-bold mb-2 text-center bg-re-400 w-full flex justify-center gap-[2%]">
                                             <span>{currentSlide}).</span>
                                             <span>{q.Question}</span>
-                                            {totalMarks=totalMarks+q.Marks}
+                                            {/* {totalMarks=totalMarks+q.Marks} */}
                                         </h3>
                                         <div className='grid w-full justify-items-stretch'>
                                             <div className="text-lg pl-[130px] justify-self-end mr-[5%]">
