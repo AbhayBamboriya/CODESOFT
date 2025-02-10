@@ -1,5 +1,4 @@
 import mongoose, { Schema,Model } from "mongoose";
-import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import crypto from 'crypto'
 import argon2 from 'argon2'
