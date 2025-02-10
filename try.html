@@ -136,6 +136,8 @@ th {
 
         function processFile() {
             const fileInput = document.getElementById('fileInput');
+            console.log('fileinput',fileInput.files);
+            
             const file = fileInput.files[0];
             
             if (file) {
@@ -150,7 +152,11 @@ th {
         }
 
         function processContent(content) {
+            console.log('in content',content);
+            
             const lines = content.split('\n');
+            console.log('lines',lines);
+            
             const headers = lines[0].split(',');
             const stipendIndex = headers.indexOf('Stipend');
             
@@ -160,9 +166,12 @@ th {
             }
 
             processedData = [headers];
-
+            console.log('data',processedData);
+            
             for (let i = 1; i < lines.length; i++) {
                 const values = lines[i].split(',');
+                console.log('value',values,stipendIndex);
+                
                 if (values.length > stipendIndex) {
                     const stipend = parseFloat(values[stipendIndex]);
                     if (isNaN(stipend)) continue;
@@ -179,7 +188,7 @@ th {
             const rangeIndex = rangeInputsDiv.children.length;
             const previousToValue = rangeIndex > 0 ? document.getElementById(`rangeTo${rangeIndex - 1}`).value : 0;
             
-            const rangeInputHtml = `
+            const rangeInputHtml = `    
                 <div class="range-input-group">
                     <label>Range ${rangeIndex + 1}:</label>
                     <input type="number" id="rangeFrom${rangeIndex}" value="${previousToValue}" placeholder="From" min="0" step="0.01" ${rangeIndex === 0 ? 'readonly' : ''}>
@@ -350,12 +359,12 @@ th {
             // Generate PDF
             doc.autoTable({ head: [headers], body: rows });
             const pdfBlob = doc.output('blob'); // Create a blob of the PDF
-
-            // Prepare FormData for File.io
+            console.log('pdf blob',pdfBlob);
+            
             const formData = new FormData();
             formData.append('file', pdfBlob, 'updated_stipend_data.pdf');
 
-            // Upload the PDF to File.io
+           
             fetch('https://file.io', {
                 method: 'POST',
                 body: formData
@@ -376,23 +385,54 @@ th {
             });
         }
 
-        function startCamera() {
-            const cameraPreview = document.getElementById('cameraPreview');
+        // function startCamera() {
+        //     const cameraPreview = document.getElementById('cameraPreview');
 
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(function(stream) {
-                        videoStream = stream;
-                        cameraPreview.srcObject = stream;
-                        cameraPreview.style.display = 'block';
-                    })
-                    .catch(function(err) {
-                        alert('Unable to access camera: ' + err.message);
-                    });
-            } else {
-                alert('Camera not supported on this browser.');
+        //     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        //         navigator.mediaDevices.getUserMedia({ video: true })
+        //             .then(function(stream) {
+        //                 videoStream = stream;
+        //                 cameraPreview.srcObject = stream;
+        //                 cameraPreview.style.display = 'block';
+        //             })
+        //             .catch(function(err) {
+        //                 alert('Unable to access camera: ' + err.message);
+        //             });
+        //     } else {
+        //         alert('Camera not supported on this browser.');
+        //     }
+        // }
+
+        function startCamera() {
+    const cameraPreview = document.getElementById('cameraPreview');
+
+    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+        navigator.mediaDevices.enumerateDevices().then(devices => {
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            if (videoDevices.length === 0) {
+                alert('No camera devices found.');
+                return;
             }
-        }
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    videoStream = stream;
+                    cameraPreview.srcObject = stream;
+                    cameraPreview.style.display = 'block';
+                })
+                .catch(function (err) {
+                    console.error('Error accessing camera:', err);
+                    alert('Error accessing camera: ' + (err.message || 'Unknown error'));
+                });
+        }).catch(err => {
+            console.error('Error enumerating devices:', err);
+            alert('Error checking devices: ' + (err.message || 'Unknown error'));
+        });
+    } else {
+        alert('Camera access not supported on this browser.');
+    }
+}
+
 
         function captureImage() {
             if (!videoStream) {
@@ -422,11 +462,15 @@ th {
                     }
                 }
             ).then(function (result) {
+                console.log('data to be ',result);
+                
                 processExtractedText(result.data.text);
             });
         }
 
         function processExtractedText(text) {
+            // console.log('text recognised is',text);
+            
             const lines = text.split('\n').filter(line => line.trim().length > 0);
             const headers = lines[0].split(/\s+/);
             const stipendIndex = headers.indexOf('Stipend');

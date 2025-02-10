@@ -18,7 +18,13 @@ const HomePage = () => {
                 </button>
                 <button className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 w-full md:w-[30%] py-2 rounded-3xl">
                     <Link to="/signup">Sign Up</Link>
+
                 </button>
+                <button className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 w-full md:w-[30%] py-2 rounded-3xl">
+                    <Link to="http://localhost:3483/">Go Back</Link>
+
+                </button>
+
             </div>
         </div>
     </div>

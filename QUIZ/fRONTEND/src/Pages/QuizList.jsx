@@ -27,6 +27,7 @@ const QuizList = () => {
         setMarks(0);
         let MarksScored = 0;
         for (let i = 0; i < option.length; i++) {
+            totalMarks=totalMarks+option[i].Marks;
             if (option[i].correctAns === option[i].choosenOption) {
                 MarksScored += option[i].Marks;
             }

@@ -1,11 +1,4 @@
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
-    box-sizing: border-box; /* added */
-  }
+/* 
   video {
     width: 100%; /* Or specify other dimensions */
     border: 1px solid #ccc; /* Optional styling */
@@ -100,4 +93,4 @@ body {
     border: 1px solid #ddd; /* added */
     border-radius: 5px; /* added */
     padding: 10px; /* added */
-  }
+  }   */

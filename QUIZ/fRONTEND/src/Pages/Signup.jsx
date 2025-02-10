@@ -74,15 +74,18 @@ const Signup = () => {
         }
       
         console.log('skaaowqwowwqoqwwqiw');
-      
-        if(signupData.password.match(/^(?=.\d)(?=.[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/)){
-            setLoading(false)
-            return toast.error('Password should contain at least 8 character 1 digit 1 lower case 1 uppercase', {
-              position: "top-right",
-          });
-
-
-        }
+        console.log('password match',signupData.password,signupData.password.match(/^(?=.\d)(?=.[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/));
+        
+    //     if(!signupData.password.match(/^(?=.\d)(?=.[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/)){
+    //         // setLoading(false)
+    //         return toast.error('Password should contain at least 8 character 1 digit 1 lower case 1 uppercase', {
+    //           position: "top-right",
+    //       });
+    
+    
+    
+    //   }
+        
 
         const response=await dispatch(createAccount(signupData))
         // going o home page
